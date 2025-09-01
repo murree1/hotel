@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Murree Heights</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Murree heights booking platform " name="keywords">
+    <meta content=" Book Room in Murree - budget & family rooms near mallraod, pindipoint, kashmirpoint. Easy online booking " name="description">
+
+    <!-- Favicon -->
+    <link href="favicon.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">  
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      
+    }
+
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      animation: fadeout 2s forwards;
+    }
+
+    /* Bigger image now */
+    #preloader img {
+      width: 50vw;       /* half the screen width */
+      max-width: 600px;  /* or max 600px */
+    }
+
+    #main-content {
+      display: flex;
+    }
+
+    @keyframes fadeout {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+  .popup-box {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #ffffff;
+    color: #000;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.5s ease;
+    max-width: 300px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .popup-box.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .popup-title {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 5px;
+  }
+
+  .popup-desc {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .popup-cta {
+    margin-top: 10px;
+    display: inline-block;
+    background: #25D366;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  .popup-cta:hover {
+    background: #1ebe5d;
+  }
+</style>
+</head>
+
+<body>
+      
+
+    <div class="container-xxl bg-white p-0">
+       
+
+        <!-- Header Start -->
+        <div class="container-fluid bg-dark px-0">
+            <div class="row gx-0">
+                <div class="col-lg-3 bg-dark d-none d-lg-block" style="color: #1cc3b2">
+                    <a href="index.html" class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
+                        <h1 class="m-0 text-primary text-uppercase">Murree</h1>
+                    </a>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row gx-0 bg-white d-none d-lg-flex">
+                        <div class="col-lg-7 px-5 text-start">
+                            <div class="h-100 d-inline-flex align-items-center py-2 me-4">
+                                <i class="fa fa-envelope text-primary me-2"></i>
+                                <p class="mb-0">murreeheightsofficial@gmail.com</p>
+                            </div>
+                          </div>
+                        <div class="col-lg-5 px-5 text-end">
+                            <div class="d-inline-flex align-items-center py-2">
+                                <a class="me-3" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="me-3" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="me-3" href=""><i class="fab fa-linkedin-in"></i></a>
+                                <a class="me-3" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="" href=""><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
+                        <a href="index.html" class="navbar-brand d-block d-lg-none">
+                            <h1 class="m-0 text-primary text-uppercase">Murree</h1>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                            <div class="navbar-nav mr-auto py-0">
+                                <a href="index.html" class="nav-item nav-link active">Home</a>
+                                <a href="Resturant.html" class="nav-item nav-link">Resturants</a>
+                                <a href="hotels.html" class="nav-item nav-link">Hotels</a>
+                                <a href="trip.html" class="nav-item nav-link">Trips</a>
+                                
+                               
+                                <a href="privatepannel.html" class="nav-item nav-link">Private Panel</a>
+                                 </div>
+                            </div>
+                            <a href="https://wa.me/923171766996" class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Get In Touch<i class="fa fa-arrow-right ms-3"></i></a>
+                     
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+
+
+        <!-- Carousel Start -->
+        <div class="container-fluid p-0 mb-5">
+            <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="w-100" src="img/carousel-1.jpg" alt="Image">
+                        <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                            <div class="p-3" style="max-width: 700px;">
+                                <h6 class="section-title text-white text-uppercase mb-3 animated slideInDown">Welcome To Murree Heights</h6>
+                                <h1 class="display-3 text-white mb-4 animated slideInDown">One Stop Solution For Accommodation<br> Travel & Food</h1>
+                                <a href="Resturant.html" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Resturants</a>
+                                <a href="hotels.html" class="btn btn-light py-md-3 px-md-5 animated slideInRight"><strong>Hotels</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                           </div>
+        </div>
+        <!-- Carousel End -->
+
+
+        <!-- Booking Start -->
+        <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="bg-white shadow" style="padding: 35px;">
+                    <div class="row g-2">
+                        <div class="col-md-10">
+                            <div class="row g-2">
+                                <div class="col-md-3">
+                                   
+                                </div>
+                                   
+                            </div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Booking End -->
+
+
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6">
+                        <h6 class="section-title text-start text-primary text-uppercase">About Us</h6>
+                        <h1 class="mb-4">Welcome to <span class="text-primary text-uppercase">Murree Heights</span></h1>
+                        <p class="mb-4">Your one-stop solution for all your travel, accommodation, and dining needs. We're dedicated to helping you discover the best spots to stay, dine, and explore. Our platform connects you with top resturants, Hotels and Trip packagesmaking it easy to make your perfect gateaway </p>
+                        <div class="row g-3 pb-4">
+                            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.1s">
+                                <div class="border rounded p-1">
+                                    <div class="border rounded text-center p-4">
+                                        <i class="fa fa-hotel fa-2x text-primary mb-2"></i>
+                                        <h2 class="mb-1" data-toggle="counter-up">398</h2>
+                                        <p class="mb-0">Rooms</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.3s">
+                                <div class="border rounded p-1">
+                                    <div class="border rounded text-center p-4">
+                                        <i class="fa fa-users-cog fa-2x text-primary mb-2"></i>
+                                        <h2 class="mb-1" data-toggle="counter-up">150</h2>
+                                        <p class="mb-0">Resturants</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 wow fadeIn" data-wow-delay="0.5s">
+                                <div class="border rounded p-1">
+                                    <div class="border rounded text-center p-4">
+                                        <i class="fa fa-users fa-2x text-primary mb-2"></i>
+                                        <h2 class="mb-1" data-toggle="counter-up">80</h2>
+                                        <p class="mb-0">Members</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary py-3 px-5 mt-2" href="htttps://wa.me/923005521508">Direct To CEO</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row g-3">
+                            <div class="col-6 text-end">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.1s" src="img/about-1.png" style="margin-top: 25%;">
+                            </div>
+                            <div class="col-6 text-start">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.3s" src="img/about-2.png">
+                            </div>
+                            <div class="col-6 text-end">
+                                <img class="img-fluid rounded w-50 wow zoomIn" data-wow-delay="0.5s" src="img/about-3.jpg">
+                            </div>
+                            <div class="col-6 text-start">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.7s" src="img/about-4.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+
+        <!-- Room Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">What We Offer</h6>
+                    <h1 class="mb-5">Experience The  <span class="text-primary text-uppercase">Best In:</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="room-item shadow rounded overflow-hidden">
+                            <div class="position-relative">
+                                <img class="img-fluid" src="img/room-1.jpg" alt="">
+                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4"></small>
+                            </div>
+                            <div class="p-4 mt-2">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h5 class="mb-0">Resturants</h5>
+                                    <div class="ps-2">
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-map-marker text-primary me-2"></i>Discover </small>
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-cutlery text-primary me-2"></i> Dine </small>
+                                    <small><i class="fa fa-smile-o0 text-primary me-2"></i>Delight</small>
+                                </div>
+                                <p class="text-body mb-3">Savour the flavour of your favourite cuisine. Browse through our selection of top resturants and have delight in every bite.</p>
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-sm btn-primary rounded py-2 px-4" href="Resturant.html">Dine With Us </a>
+                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="Resturant.html">Find Your Spot</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="room-item shadow rounded overflow-hidden">
+                            <div class="position-relative">
+                                <img class="img-fluid" src="img/room-2.jpg" alt="">
+                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">Discount On All </small>
+                            </div>
+                            <div class="p-4 mt-2">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h5 class="mb-0">Hotels</h5>
+                                    <div class="ps-2">
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-magnify text-primary me-2"></i>Research</small>
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-bed text-primary me-2"></i>Relax</small>
+                                    <small><i class="fa fa-bolt text-primary me-2"></i>Recharge</small>
+                                </div>
+                                <p class="text-body mb-3">Rest with the best. Sleep with a smile and let your worries rest. Explore our hotels and make your stay divine.</p>
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-sm btn-primary rounded py-2 px-4" href="hotels.html">Wander In</a>
+                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="hotels.html">Relax Here</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+                        <div class="room-item shadow rounded overflow-hidden">
+                            <div class="position-relative">
+                                <img class="img-fluid" src="img/room-3.jpg" alt="">
+                                <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">No Trips Yet</small>
+                            </div>
+                            <div class="p-4 mt-2">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h5 class="mb-0">Trips</h5>
+                                    <div class="ps-2">
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                        <small class="fa fa-star text-primary"></small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-airplane text-primary me-2"></i>Travel</small>
+                                    <small class="border-end me-3 pe-3"><i class="fa fa-hiking text-primary me-2"></i>Trek</small>
+                                    <small><i class="fa fa-mountain text-primary me-2"></i>Tour</small>
+                                </div>
+                                <p class="text-body mb-3">Travel with wonder, explore with delight, end in night . We've trips that awaits, explore and make them great.</p>
+                                <div class="d-flex justify-content-between">
+                                    <a class="btn btn-sm btn-primary rounded py-2 px-4" href="trip.html">Trips Partner</a>
+                                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="trip.html">Find Trip</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>.
+                </div>
+            </div>
+        </div>
+        <!-- Room End -->
+
+
+        <!-- Video Start -->
+        <div class="container-xxl py-5 px-0 wow zoomIn" data-wow-delay="0.1s">
+            <div class="row g-0">
+                <div class="col-md-6 bg-dark d-flex align-items-center">
+                    <div class="p-5">
+                        <h6 class="section-title text-start text-white text-uppercase mb-3">Murree Height's</h6>
+                        <h1 class="text-white mb-4">Pioneering Partnership Program </h1>
+                        <p class="text-white mb-4">As one of our character member, you'll be part of a select groups that gets to experience the best of our website, with benefits that will continue to evolve and grow with us over the next 4-5 years. <b> Lifetime Discount, Priority Access, VIP Support And Exclusive Content.</b></p>
+                        <a href="partnership.html" class="btn btn-primary py-md-3 px-md-5 me-3">Grab Deal</a>
+                        <a href="partnership.html" class="btn btn-light py-md-3 px-md-5">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                     <img class="img-fluid" src="img/vedio.jpg" alt="">
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <!-- Video Start -->
+
+
+        <!-- Service Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Murree height</h6>
+                    <h1 class="mb-5">Explore Our <span class="text-primary text-uppercase">Services</span></h1>
+                </div>
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <a class="service-item rounded" href="hotels.html">
+                            <div class="service-icon bg-transparent border rounded p-1" >
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center " src="img/room-1.jpg">
+                                    <i class="fa fa-hotel fa-2x text-primary"a></i>
+                                    
+                                </div>
+                            </div>
+                            <h5 class="mb-3">Hotels & Rooms</h5>
+                            <p class="text-body mb-0">Cozy rooms for a peaceful night. Amenities abound, for a comfortable stay. Relax and unwind, in our hospitality</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                        <a class="service-item rounded" href="Resturant.html">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-utensils fa-2x text-primary"></i>
+                                    
+                                </div>
+                            </div>
+                            <h5 class="mb-3">Restaurant & Food </h5>
+                            <p class="text-body mb-0">SAvour the flavour of our culinary art. Delicious dishes, to delight your heart. Fresh ingredients, prepared with love and care.</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <a class="service-item rounded" href="booking.html">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-spa fa-2x text-primary"></i>
+                                 
+                                </div>
+                            </div>
+                            <h5 class="mb-3">Car Rental & Airport Transfer</h5>
+                            <p class="text-body mb-0">Ride in a style, with our car rentals. Convenient and comfortable, for your travels. we'll take you, To and From the Airport .</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
+                        <a class="service-item rounded" href="trip.html">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-swimmer fa-2x text-primary"></i>
+                                   
+                                </div>
+                            </div>
+                            <h5 class="mb-3">Trips & Adventure </h5>
+                            <p class="text-body mb-0">Explore the world with excitement and glee. Trips and adventure for you and me. Create memories which will last a lifetime.</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                        <a class="service-item rounded" href="blog.html">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-glass-cheers fa-2x text-primary"></i>
+                                    
+                                </div>
+                            </div>
+                            <h5 class="mb-3">Event & Parties</h5>
+                            <p class="text-body mb-0">Celebrate with us, in style and fun. Unforgetable moments, for everyone. We will take care of every detail</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
+                        <a class="service-item rounded" href="booking.html">
+                            <div class="service-icon bg-transparent border rounded p-1">
+                                <div class="w-100 h-100 border rounded d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-dumbbell fa-2x text-primary"></i>
+                                    
+                                </div>
+                            </div>
+                            <h5 class="mb-3">Personal Guides & Photographer</h5>
+                            <p class="text-body mb-0">Your personal guide to show you around. Expert Knowledge to make your trip renowned. We'll take you to the hidden gems and more.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
+
+        <!-- Team Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title text-center text-primary text-uppercase">Meet</h6>
+                    <h1 class="mb-5">Zulquarnain Sajid Husssain <span class="text-primary text-uppercase">CEO</span></h1>
+                </div>
+                
+            </div>
+        </div>
+        <!-- Team End -->
+
+
+        <!-- Newsletter Start -->
+        <div class="container newsletter mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 border rounded p-1">
+                    <div class="border rounded text-center p-1">
+                        <div class="bg-white rounded text-center p-5">
+                            <h4 class="mb-4">Subscribe Our <span class="text-primary text-uppercase">Newsletter</span></h4>
+                            <div class="position-relative mx-auto" style="max-width: 400px;">
+                               
+                                <a href="https://whatsapp.com/channel/0029VbBOqcU3mFY7iqKwbM16" class="btn btn-primary py-2 px-3 position-center top-0 end-0 mt-2 me-2">Submit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Newsletter Start -->
+<!-- POPUP HTML -->
+<div id="popup1" class="popup-box">
+  <div class="popup-title">Just Booked: Al Miraj Hotel</div>
+  <div class="popup-desc">5-star comfort near Mall Road is trending today!<br>Hurry up! WhatsApp to avail this offer.</div>
+  <a class="popup-cta" href="https://wa.me/923171766996" target="_blank">WhatsApp Now</a>
+</div>
+
+<div id="popup2" class="popup-box">
+  <div class="popup-title"> Most Trending: Khan's flat</div>
+  <div class="popup-desc">Family suite with Garden was just reserved!<br>Secure your booking before it’s full.</div>
+  <a class="popup-cta" href="https://wa.me/923171766996" target="_blank">WhatsApp Now</a>
+</div>        
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
+            <div class="container pb-5">
+                <div class="row g-5">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="bg-primary rounded p-4">
+                            <a href="index.html"><h1 class="text-white text-uppercase mb-3"> Murree </h1></a>
+                            <p class="text-white mb-0">
+								Visit <a class="text-dark fw-medium" href="https://wa.me/923171766996">Murree Height</a>, Your all-in-one platform for travel, food, event, and more!  Book hotels, plan trips, rent cars and get experts guide. We'll take care of the details, so you can focus on making memories.
+							</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-lg-3">
+                        <h6 class="section-title text-start text-primary text-uppercase mb-4">Contact</h6>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Mall raod,Murree PAK</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+92 317 1766996</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>murreeheightsofficial@gmail.com</p>
+                     
+                    </div>
+                    <div class="col-lg-5 col-md-12">
+                        <div class="row gy-5 g-4">
+                                   <div class="col-md-8">
+                                <h6 class="section-title text-start text-primary text-uppercase mb-4">Services</h6>
+                                <a class="btn btn-link" href="hotels.html">Hotels & Rooms</a>
+                                <a class="btn btn-link" href="Resturant.html">Resturants & Food</a>
+                                <a class="btn btn-link" href="trip.html">Trips & Adventure</a>
+                                <a class="btn btn-link" href="blog.html">Event & Party</a>
+                                <a class="btn btn-link" href="booking.html">Rental Cars And Photographer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">
+                            Copyright Murree Heights. All rights reserved.</a>
+    
+						                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+<div id="preloader">
+    <img src="brand.png" alt="Loading...">
+  </div>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- POPUP SCRIPT -->
+<script>
+  // Show first popup after 15 seconds
+  setTimeout(() => {
+    document.getElementById("popup1").classList.add("active");
+    setTimeout(() => {
+      document.getElementById("popup1").classList.remove("active");
+    }, 6000);
+  }, 15000);
+
+  // Show second popup after 20 seconds
+  setTimeout(() => {
+    document.getElementById("popup2").classList.add("active");
+    setTimeout(() => {
+      document.getElementById("popup2").classList.remove("active");
+    }, 7000);
+  }, 25000);
+</script><script>
+    window.addEventListener("load", () => {
+      const preloader = document.getElementById("preloader");
+      const mainContent = document.getElementById("main-content");
+
+      setTimeout(() => {
+        preloader.style.animation = "fadeOut 2s forwards";
+        setTimeout(() => {
+          preloader.style.display = "none";
+          mainContent.style.display = "block";
+          document.body.style.overflow = "auto";
+        }, 2000);
+      }, 3000);
+    });</script>
+    
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

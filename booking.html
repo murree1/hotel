@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Murree Heights Booking</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      margin: 40px 0;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 550px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .coupon-box {
+      border: 2px dotted gold;
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+    .coupon-box input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .coupon-box button {
+      background: purple;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      margin-left: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    button.submit-btn {
+      margin-top: 20px;
+      width: 100%;
+      background: gold;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #333;
+    }
+    .hidden { display: none; }
+    .success {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Murree Heights Booking</h2>
+
+    <!-- Coupon Section -->
+    <div class="coupon-box" id="couponSection">
+      <p>Have a coupon?</p>
+      <input type="text" id="couponCode" placeholder="Enter your coupon code">
+      <button type="button" onclick="applyCoupon()">Apply</button>
+      <p id="couponMessage"></p>
+    </div>
+
+    <!-- Main Booking Form -->
+    <form id="bookingForm" action="https://formspree.io/f/xblaryzl" method="POST">
+      <!-- Personal Info -->
+      <div id="personalInfo">
+        <h3>Booking Details</h3>
+        <label>First Name <input type="text" name="first_name" required></label>
+        <label>Last Name <input type="text" name="last_name" required></label>
+        <label>Company Name (optional) <input type="text" name="company"></label>
+        <label>Country <input type="text" name="country" required></label>
+        <label>Street Address <input type="text" name="street" required></label>
+        <label>Town / City <input type="text" name="city" required></label>
+        <label>Phone <input type="text" name="phone" required></label>
+        <label>Email <input type="email" name="email" required></label>
+      </div>
+
+      <!-- Category -->
+      <label>Category
+        <select name="category" id="category" required onchange="showCategoryFields()">
+          <option value="">-- Select --</option>
+          <option value="hotel">Hotel</option>
+          <option value="restaurant">Restaurant</option>
+          <option value="trip">Trip</option>
+        </select>
+      </label>
+
+      <!-- Hotel Fields -->
+      <div id="hotelFields" class="hidden">
+        <label>Hotel Name <input type="text" name="hotel_name"></label>
+        <label>Expected Price <input type="text" name="expected_price"></label>
+        <label>Nights Stay <input type="number" name="nights"></label>
+      </div>
+
+      <!-- Restaurant Fields -->
+      <div id="restaurantFields" class="hidden">
+        <label>Choose Voucher</label>
+        <select name="voucher">
+          <option value="Rs. 500 – valid 1 month">Rs. 500 – valid 1 month</option>
+          <option value="Rs. 1000 – valid 2 months">Rs. 1000 – valid 2 months</option>
+          <option value="Rs. 3000 – valid 6 months">Rs. 3000 – valid 6 months</option>
+        </select>
+      </div>
+
+      <!-- Trip Fields -->
+      <div id="tripFields" class="hidden">
+        <label>Trip Type
+          <select name="trip_type">
+            <option value="Company">Company</option>
+            <option value="University">University</option>
+            <option value="International">International</option>
+            <option value="Umrah">Umrah</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label>Company/Group Name <input type="text" name="trip_company"></label>
+        <label>Total People <input type="number" name="people"></label>
+        <label>Transport Needed? <input type="text" name="transport"></label>
+        <label>Food Needed? <input type="text" name="food"></label>
+        <label>Other Requirements <textarea name="other"></textarea></label>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+
+    <!-- Coupon Free Form -->
+    <form id="couponFreeForm" class="hidden" action="https://formspree.io/f/xblaryzl" method="POST">
+      <h3>🎉 Congratulations!</h3>
+      <p>You are all free! Our team will contact you as soon as possible.</p>
+      <label>Your Name <input type="text" name="free_name" required></label>
+      <label>Your Phone <input type="text" name="free_phone" required></label>
+      <input type="hidden" name="coupon_applied" value="13zuni10">
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+
+    <p id="successMsg" class="success hidden">✅ Submitted successfully!</p>
+  </div>
+   <div class="footer__bar">
+        Copyright © Murree Heights. All rights reserved.
+      </div>
+  <script>
+    function applyCoupon() {
+      let code = document.getElementById("couponCode").value.trim();
+      let msg = document.getElementById("couponMessage");
+      if (code === "13zuni10") {
+        msg.textContent = "🎉 Coupon applied successfully!";
+        document.getElementById("bookingForm").classList.add("hidden");
+        document.getElementById("couponFreeForm").classList.remove("hidden");
+      } else {
+        msg.textContent = "❌ Invalid coupon code.";
+      }
+    }
+
+    function showCategoryFields() {
+      let category = document.getElementById("category").value;
+      document.getElementById("hotelFields").classList.add("hidden");
+      document.getElementById("restaurantFields").classList.add("hidden");
+      document.getElementById("tripFields").classList.add("hidden");
+      if (category === "hotel") {
+        document.getElementById("hotelFields").classList.remove("hidden");
+      } else if (category === "restaurant") {
+        document.getElementById("restaurantFields").classList.remove("hidden");
+      } else if (category === "trip") {
+        document.getElementById("tripFields").classList.remove("hidden");
+      }
+    }
+
+    // Trip WhatsApp Redirect
+    document.getElementById("bookingForm").addEventListener("submit", function(e) {
+      let category = document.getElementById("category").value;
+      if (category === "trip") {
+        let name = document.querySelector("[name=first_name]").value + " " + document.querySelector("[name=last_name]").value;
+        let phone = document.querySelector("[name=phone]").value;
+        let tripType = document.querySelector("[name=trip_type]").value;
+        let people = document.querySelector("[name=people]").value;
+        let whatsappMsg = `Trip Booking:%0AName: ${name}%0APhone: ${phone}%0ATrip Type: ${tripType}%0APeople: ${people}`;
+        window.open(`https://wa.me/923005521508?text=${whatsappMsg}`, "_blank");
+      }
+    });
+  </script>
+</body>
+</html>

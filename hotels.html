@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Murree Heights Starry Night</title>
+    <link href="F/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+          body {
+        margin: 0;
+      background: black;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      font-family: Arial, sans-serif;
+    }
+
+    .star {
+      position: fixed;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 3; }
+    }
+
+    .moon {
+      position: fixed;
+      top: 40px;
+      left: -100px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 0 40px rgba(255,255,255,0.2);
+      z-index: 2;
+      animation: moonMove 200s linear infinite;
+    }
+
+    @keyframes moonMove {
+      0% { top:30%;left: -100px; opacity: 1; }
+      25% { top:15%;opacity: 0.8; }
+      50% { top:5%;opacity: 0.4; }
+      75% { opacity: 0.2; }
+      100% { top:30%;  left: 100vw; opacity: 0; }
+    }
+
+.r2-ratt i {
+    color: #FF9800;
+}
+
+
+.r2-available {
+    background: white;
+   
+    padding: 5px 10px 2px 10px;
+    /* margin-top: 10px; */
+    width: 40%;
+    border-radius: 44px;
+    margin-bottom: 10px;
+    color: black;
+    font-size: 15px;
+}   
+  .tags {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        margin-right: 6px;
+        }
+      .row-container{
+             display: inline-block;
+    margin-right: 10px;
+        }
+  
+    .shooting-star-container {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 18px white;
+    }
+
+    @keyframes move1 {
+      0% { transform: translate(100vw, -20vh); opacity: 1; }
+      100% { transform: translate(-10vw, 120vh); opacity: 0; }
+    }
+    @keyframes move2 {
+      0% { transform: translate(0vw, -10vh); opacity: 1; }
+      100% { transform: translate(120vw, 100vh); opacity: 0; }
+    }
+    @keyframes move3 {
+      0% { transform: translate(50vw, -10vh); opacity: 1; }
+      100% { transform: translate(0vw, 120vh); opacity: 0; }
+    }
+    @keyframes move4 {
+      0% { transform: translate(80vw, 0vh); opacity: 1; }
+      100% { transform: translate(-20vw, 100vh); opacity: 0; }
+    }
+
+    .shoot1 { animation: move1 19s linear infinite; }
+    .shoot2 { animation: move2 8s linear infinite; }
+    .shoot3 { animation: move3 7s linear infinite; }
+    .shoot4 { animation: move4 15s linear infinite; }
+
+    .hotel-box {
+        text-align: center;
+      position: relative;
+      width: 60%;
+      max-width: 400px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      color: white;
+      z-index: 999;
+        font-size: 75%;
+    
+    }
+
+    .hotel-box img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .hotel-box + .hotel-box {
+      margin-top: 40px;
+    }
+
+    .hotel-box button {
+      margin-top: auto;
+      align-self: flex-start;
+      padding: 16px 8px;
+      background:black;
+         color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .hotel-box button:hover {
+      transform: scale(1.1);
+      background: #ffffff88;
+      box-shadow: 0 0 8px #fff;
+    }
+
+     #muteBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.6);
+      border: none;
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+    }
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Eye button */
+.eye-button {
+  position: absolute; 
+  bottom: 10px;
+  right: 10px;
+  
+  background: #222;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  animation: float 3s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.eye-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+}
+
+/* Eye look */
+.eye-icon {
+  width: 45px;
+  height: 25px;
+  background: white;
+    opacity: 50%;
+
+  border-radius: 50%/50%;
+  position: relative;
+    top: 30%;
+    right: 5%;
+    position: fixed;
+    align-items: center;
+  overflow: hidden;
+  animation: blink 5s infinite;
+}
+
+/* Iris (golden brown) */
+.iris {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle, #a0522d 40%, #5a2d0c 80%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
+  transition: transform 0.1s ease-out;
+}
+
+/* Pupil */
+.pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Blink animation */
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+     
+     
+</style>
+</head>
+<body>
+ 
+ 
+
+  <audio id="bgMusic" loop>
+    <source src="1.mp4" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+ 
+     <button id="muteBtn">🔇</button>
+   <div class="moon" id="moon"></div>
+  <div class="shooting-star-container">
+    <div class="shooting-star shoot1"></div>
+    <div class="shooting-star shoot2"></div>
+    <div class="shooting-star shoot3"></div>
+    <div class="shooting-star shoot4"></div>
+  </div>
+
+     <div class="eye-icon" style="position-center">
+      <div class="iris">
+        <div class="pupil"></div>
+      </div>
+    </div>
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Trending </div>
+            <div class="tags" style="background:#2196F3;"> For Family</div>
+                             <div class="tags" style="background:#FF9800;">10% OFF</div></div>
+    <img src="img/khansflat.jpg" >
+   <h1><strong>Khan's Flat</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 35 Reviews</span> </div>
+    <p>3-bedrooms flat near Mallroad, Resturant , Parking</p>
+      <div class="r2-available">RS 27000/-</div>
+   <a href="khans.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+     
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Trending </div>
+            <div class="tags" style="background:#2196F3;"> For Family</div>
+                             <div class="tags" style="background:#FF9800;">10% OFF</div></div>
+    <img src="img/alwahaj.jpg" >
+    <h1><strong>Al-Wahaj</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i>   <span>(4.5) | 15 Reviews</span> </div>
+    <p>Near Mall Road ,Murree. Free Parking</p>
+      <div class="r2-available">RS 9,000/-</div>
+   <a href="khans.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+
+ 
+       
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Just Booked</div>
+            <div class="tags" style="background:#2196F3;"> Vip Setup</div>
+                             <div class="tags" style="background:#FF9800;">10% OFF</div></div>
+    <img src="img/almairaj.jpg" >
+   <h1><strong>Al-Mairaj</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 35 Reviews</span> </div>
+    <p>3-bedrooms, Resturant , Parking</p>
+      <div class="r2-available">RS 10,000/-</div>
+   <a href="mairaj.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+  
+    
+    
+  <div class="hotel-box">	
+       <img src="img/thetajmahal.jpg" >
+   <h1><strong>The Taj Mahal</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i>   <span>(4.5) | 12 Reviews</span> </div>
+    <p>Mallraod Murree, Resturant , Parking</p>
+      <div class="r2-available">RS 12,000/-</div>
+   <a href="mahal.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">New </div>
+           
+    <img src="img/summerpalace.jpg" >
+   <h1><strong>Summer Palace</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 23 Reviews</span> </div>
+    <p>Motor agency mall road murree, Resturant , Parking</p>
+      <div class="r2-available">RS 13,000/-</div>
+   <a href="palace.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+      </div></div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container">
+         <img src="img/punjabfrontier.jpg" >
+   <h1><strong>Punjab Frontier</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>   <span>(3.5) | 8 Reviews</span> </div>
+    <p>On Main Mallroad , Resturant ,No-Parking</p>
+      <div class="r2-available">RS 17,000/-</div>
+   <a href="frontier.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+      </div></div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container">
+                        <div class="tags" style="background:#FF9800;">Budgeted </div>
+    <img src="img/royalinn.JPG" >
+   <h1><strong>Royal Inn</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 29 Reviews</span> </div>
+    <p>Nearest to mallroad, ironing facility, Resturant , Parking</p>
+      <div class="r2-available">RS 9,000/-</div>
+   <a href="royal.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+      </div></div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">
+                            <img src="img/thelegacy.jpg" >
+   <h1><strong>The Legacy</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i>   <span>(3.5) | 17 Reviews</span> </div>
+    <p>near to mall road,24/7 service, Parking</p>
+      <div class="r2-available">RS 13,000/-</div>
+   <a href="legacy.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Trending </div>
+            <div class="tags" style="background:#2196F3;"> Clean Rooms</div>
+                              <img src="img/snowland.jpg" >
+   <h1><strong>Snow land</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 27 Reviews</span> </div>
+    <p>nar to mall road walking distance, Resturant , Parking</p>
+      <div class="r2-available">RS 10,000/-</div>
+   <a href="snow.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+      </div></div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	
+    <img src="img/heavenheight.JPG" >
+   <h1><strong>Heaven heights</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i>   <span>(4.5) | 10 Reviews</span> </div>
+    <p>motor agency, Mall road, 24/7 service</p>
+      <div class="r2-available">RS 9,000/-</div>
+   <a href="height.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	
+    <img src="img/daltas.jpg" >
+   <h1><strong>Daltas</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 28 Reviews</span> </div>
+    <p>3-bedrooms, Resturant , Parking</p>
+      <div class="r2-available">RS 27000/-</div>
+   <a href="daltas.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	 <img src="img/khansflat.jpg" >
+   <h1><strong>Khan's Flat</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 20 Reviews</span> </div>
+    <p>3-bedrooms, Resturant , Parking</p>
+      <div class="r2-available">RS 27000/-</div>
+   <a href="khans.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Trending </div>
+            <div class="tags" style="background:#2196F3;"> For Family</div>
+                             <div class="tags" style="background:#FF9800;">10% OFF</div></div>
+    <img src="img/khansflat.jpg" >
+   <h1><strong>Khan's Flat</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 20 Reviews</span> </div>
+    <p>3-bedrooms, Resturant , Parking</p>
+      <div class="r2-available">RS 27000/-</div>
+   <a href="khans.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Trending </div>
+            <div class="tags" style="background:#2196F3;"> For Family</div>
+                             <div class="tags" style="background:#FF9800;">10% OFF</div></div>
+    <img src="img/khansflat.jpg" >
+   <h1><strong>Khan's Flat</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 20 Reviews</span> </div>
+    <p>3-bedrooms, Resturant , Parking</p>
+      <div class="r2-available">RS 27000/-</div>
+   <a href="khans.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>
+    
+ 
+    
+    
+    
+  <div class="hotel-box">	<div class="row-container"> <div class="tags">Trending </div>
+            <div class="tags" style="background:#2196F3;"> For Family</div>
+                             <div class="tags" style="background:#FF9800;">10% OFF</div></div>
+    <img src="img/khansflat.jpg" >
+   <h1><strong>Khan's Flat</strong></h1>
+      <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>   <span>(5.0) | 20 Reviews</span> </div>
+    <p>3-bedrooms, Resturant , Parking</p>
+      <div class="r2-available">RS 27000/-</div>
+   <a href="khans.html" class="eye-button">
+   
+    <span>View Rooms</span>
+  </a>
+      
+  </div>   <div class="footer__bar" style="color: aliceblue" >
+        Copyright © Murree Heights. All rights reserved.
+      </div>
+    <script>
+    const audio = document.getElementById("bgMusic");
+    const muteBtn = document.getElementById("muteBtn");
+
+    let isMuted = true;
+
+    // Click anywhere to start music
+    document.body.addEventListener("click", function startMusic() {
+      audio.play().then(() => {
+        isMuted = false;
+        muteBtn.textContent = "🔊";
+      }).catch(err => console.log("Play blocked:", err));
+      document.body.removeEventListener("click", startMusic);
+    });
+
+    muteBtn.addEventListener("click", () => {
+      if (isMuted) {
+        audio.play();
+        audio.muted = false;
+        muteBtn.textContent = "🔊";
+      } else {
+        audio.muted = true;
+        muteBtn.textContent = "🔇";
+      }
+      isMuted = !isMuted;
+    });</script><script>
+
+     // Generate stars
+    const starCount = 550;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = Math.random() * 2 + 1;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.left = `${Math.random() * 100}vw`;
+      document.body.appendChild(star);
+    }
+    
+  </script><script>
+// Make the eye follow the mouse
+document.addEventListener("mousemove", (e) => {
+  const iris = document.querySelector(".iris");
+  const rect = iris.parentElement.getBoundingClientRect();
+  const eyeCenterX = rect.left + rect.width / 2;
+  const eyeCenterY = rect.top + rect.height / 2;
+
+  const angleX = (e.clientX - eyeCenterX) / 20;
+  const angleY = (e.clientY - eyeCenterY) / 20;
+
+  iris.style.transform = `translate(calc(-50% + ${angleX}px), calc(-50% + ${angleY}px))`;
+});
+</script>
+    
+
+ 
+</body>
+</html>

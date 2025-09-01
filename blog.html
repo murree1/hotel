@@ -1,0 +1,176 @@
+Q<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Murree Heights Blog</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .blog-header {
+      position: relative;
+      background: url('murree-blog-banner.jpg') center/cover no-repeat;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .blog-header::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .blog-header h1 {
+      z-index: 1;
+      font-size: 3rem;
+    }
+
+    .blog-content {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .blog-post {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+      position: relative;
+      transition: 0.3s ease;
+    }
+
+    .blog-post:hover {
+      transform: translateY(-3px);
+    }
+
+    .blog-post h2 {
+      margin-bottom: 10px;
+    }
+
+    .blog-post p {
+      color: #555;
+    }
+
+    .read-more {
+      margin-top: 15px;
+      display: inline-block;
+      color: #007bff;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .read-more:hover {
+      text-decoration: underline;
+    }
+
+    .read-box {
+      display: none;
+      background-color: #f0f8ff;
+      border-left: 4px solid #007bff;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 8px;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .close-btn {
+      float: right;
+      font-size: 18px;
+      color: #888;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Blog Title Section -->
+  <div class="blog-header">
+    <h1>Murree Heights Blog</h1>
+  </div>
+
+  <!-- Blog Content -->
+  <div class="blog-content">
+
+    <div class="blog-post">
+      <h2>Top 5 Luxury Hotels in Murree</h2>
+      <p>We’ve handpicked the best hotels that define comfort, elegance, and service excellence in Murree.</p>
+      <span class="read-more" onclick="toggleBox(this)">Read More</span>
+      <div class="read-box">
+        <span class="close-btn" onclick="closeBox(this)">×</span>
+        <p>These hotels offer royal-class hospitality and breathtaking views. Make your trip special by staying at the top-rated places in Murree. We personally assist you with bookings.<br><br>
+        📞 Contact: <strong>+92 317 1766996</strong></p>
+      </div>
+    </div>
+
+    <div class="blog-post">
+      <h2>Explore Hidden Trails in Murree</h2>
+      <p>Looking for peaceful paths and untouched nature? Here’s where real adventure lives.</p>
+      <span class="read-more" onclick="toggleBox(this)">Read More</span>
+      <div class="read-box">
+        <span class="close-btn" onclick="closeBox(this)">×</span>
+        <p>These secret trails offer solitude, fresh air, and scenic beauty away from the busy spots. Our guides can help you explore the safest and most photogenic routes.<br><br>
+        📞 Contact: <strong>+92 317 1766996</strong></p>
+      </div>
+    </div>
+
+    <div class="blog-post">
+      <h2>Best Local Food Spots in Murree</h2>
+      <p>Experience the real flavor of Murree – from roadside gems to mountain-top cafés.</p>
+      <span class="read-more" onclick="toggleBox(this)">Read More</span>
+      <div class="read-box">
+        <span class="close-btn" onclick="closeBox(this)">×</span>
+        <p>We've listed the most-loved food places by both locals and tourists. From traditional dishes to unique café spots, your taste buds are in for a ride!<br><br>
+        📞 Contact: <strong>+92 317 1766996</strong></p>
+      </div>
+    </div>
+
+  </div>
+   <div class="footer__bar">
+        Copyright © Murree Heights. All rights reserved.
+      </div>
+  <!-- JS to Toggle Boxes -->
+  <script>
+    function toggleBox(el) {
+      const box = el.nextElementSibling;
+      const allBoxes = document.querySelectorAll('.read-box');
+      allBoxes.forEach(b => {
+        if (b !== box) b.style.display = 'none';
+      });
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function closeBox(el) {
+      el.parentElement.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

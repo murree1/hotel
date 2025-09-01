@@ -1,0 +1,648 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hotels Dashboard — Mockup Manager</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#0f162e; --card:#11193a; --muted:#93a4bf; --text:#e6ecff; --accent:#6ea8ff; --accent2:#8ef6ff; --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#0a0f23,#0d1533 40%,#0b1020);color:var(--text)}
+  a{color:var(--accent)}
+  header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg,#0f1838,rgba(15,24,56,0.6));backdrop-filter: blur(8px);position:sticky;top:0;z-index:10}
+  header h1{margin:0;font-size:18px;letter-spacing:0.4px}
+  .wrap{max-width:1200px;margin:18px auto;padding:0 16px}
+  .grid{display:grid;gap:12px}
+  .grid.kpi{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .card{background:linear-gradient(180deg,#11193a 0%,#0f162e 100%);border:1px solid rgba(255,255,255,0.06);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .kpi .card{padding:14px}
+  .kpi h3{margin:0 0 6px 0;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.6px;text-transform:uppercase}
+  .kpi .num{font-size:24px;font-weight:800}
+  .kpi .sub{font-size:12px;color:var(--muted)}
+  .controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:14px 0}
+  input,select,textarea{padding:10px 12px;border-radius:10px;background:#0a1129;border:1px solid rgba(255,255,255,0.08);color:var(--text);font-size:14px}
+  .search{flex:1;min-width:220px}
+  .btn{background:linear-gradient(180deg,#4c82ff,#3c6bf0);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
+  .btn.secondary{background:#0a1129;color:var(--text);border:1px solid rgba(255,255,255,0.1)}
+  .btn.danger{background:linear-gradient(180deg,#ff5b5b,#ef4444)}
+  .btn.ok{background:linear-gradient(180deg,#2dd772,#18c45f)}
+  .hotels{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .hotel{display:flex;flex-direction:column;gap:10px;padding:12px}
+  .hotel-head{display:flex;gap:12px}
+  .thumb{width:72px;height:72px;border-radius:12px;overflow:hidden;background:#0a1129;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .thumb .ph{font-weight:800;color:var(--muted)}
+  .small{font-size:12px;color:var(--muted)}
+  .price{font-weight:800}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .pill{padding:6px 8px;border-radius:999px;background:#0a1129;border:1px solid rgba(255,255,255,0.08);font-size:12px;color:var(--muted)}
+  .hotel-actions{display:flex;gap:8px;justify-content:flex-end}
+  .empty{padding:24px;text-align:center;color:var(--muted)}
+  .admin-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  footer{padding:24px;text-align:center;color:var(--muted)}
+  /* Modals */
+  .modal{position:fixed;inset:0;background:rgba(4,9,25,.6);backdrop-filter: blur(4px);display:none;align-items:center;justify-content:center;padding:16px}
+  .modal.open{display:flex}
+  .modal .panel{width:100%;max-width:900px}
+  .panel{padding:16px}
+  .row{display:flex;gap:10px}
+  .row>*{flex:1}
+  label{display:block;font-size:12px;color:var(--muted);margin:8px 0 4px}
+  .rooms{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+  .room{padding:10px}
+  .room .status{font-size:12px}
+  .divider{height:1px;background:rgba(255,255,255,0.08);margin:12px 0}
+  .stats-line{display:flex;gap:8px;flex-wrap:wrap}
+  .stat-badge{padding:6px 8px;border-radius:8px;background:#0a1129;border:1px solid rgba(255,255,255,0.08);font-size:12px}
+  .right{margin-left:auto}
+  .warn{color:var(--warn)} .okc{color:var(--ok)} .bad{color:var(--bad)}
+  @media (max-width:640px){.controls{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+  <header>
+    <h1>Hotels Dashboard — Mockups</h1>
+    <div class="admin-bar">
+      <button class="btn" id="btnAdd">+ Add Hotel</button>
+      <button class="btn secondary" id="btnAdmin">Open Admin</button>
+      <button class="btn secondary" id="btnExportJson">Export JSON</button>
+      <input type="file" id="fileIn" accept="application/json" style="display:none">
+      <button class="btn secondary" id="btnImportJson">Import JSON</button>
+      <button class="btn secondary" id="btnDownloadHtml">Save as HTML</button>
+      <button class="btn danger" id="btnReset">Reset Sample</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- KPI -->
+    <div class="grid kpi">
+      <div class="card"><h3>Total Hotels</h3><div class="num" id="kpiHotels">0</div><div class="sub">Managed in system</div></div>
+      <div class="card"><h3>Total Rooms</h3><div class="num" id="kpiRooms">0</div><div class="sub">Across all hotels</div></div>
+      <div class="card"><h3>Booked</h3><div class="num" id="kpiBooked">0</div><div class="sub">Rooms currently booked</div></div>
+      <div class="card"><h3>Occupancy</h3><div class="num" id="kpiOcc">0%</div><div class="sub">Booked / Total rooms</div></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="card" style="padding:12px;margin-top:12px">
+      <div class="controls">
+        <input id="search" class="search" placeholder="Search by hotel, area, manager, amenity...">
+        <select id="filterStars">
+          <option value="all">Stars: All</option>
+          <option value="5">5 stars</option>
+          <option value="4">4 stars+</option>
+          <option value="3">3 stars+</option>
+          <option value="2">2 stars+</option>
+          <option value="1">1+ stars</option>
+        </select>
+        <select id="filterStatus">
+          <option value="all">Status: All rooms</option>
+          <option value="available">Has available rooms</option>
+          <option value="booked">All rooms booked</option>
+        </select>
+        <select id="sortBy">
+          <option value="recommended">Sort: Recommended</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="rating-desc">Rating: High → Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div id="list" class="hotels" aria-live="polite"></div>
+    <div id="empty" class="empty card" style="display:none">No hotels match your filters.</div>
+  </div>
+
+  <!-- View/Book Modal -->
+  <div id="viewModal" class="modal" aria-hidden="true">
+    <div class="panel card">
+      <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
+        <h2 id="viewTitle" style="margin:0">Hotel</h2>
+        <div class="stats-line right">
+          <span class="stat-badge"><span id="viewStars">★</span></span>
+          <span class="stat-badge">Rating <span id="viewRating">0</span></span>
+          <span class="stat-badge">Rooms <span id="viewRoomCount">0</span></span>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="row">
+        <div style="flex:0 0 220px">
+          <div class="thumb" style="width:100%;height:140px">
+            <img id="viewImg" alt="Hotel image" onerror="this.style.display='none'">
+            <div class="ph" id="viewPh">IMG</div>
+          </div>
+          <div class="small" style="margin-top:6px" id="viewArea"></div>
+          <div class="small" id="viewPrice"></div>
+          <div class="small" id="viewAmenities"></div>
+        </div>
+        <div>
+          <div id="viewDesc" style="margin-bottom:8px"></div>
+          <div class="row">
+            <div>
+              <strong>Manager</strong>
+              <div id="viewMgr"></div>
+              <div class="small" id="viewMgrContact"></div>
+            </div>
+            <div>
+              <strong>Stats</strong>
+              <div class="small">Booked: <span id="viewBooked"></span></div>
+              <div class="small">Available: <span id="viewAvailable"></span></div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h3 style="margin:0 0 8px 0">Rooms</h3>
+          <div id="viewRooms" class="rooms"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+        <button class="btn secondary" id="viewClose">Close</button>
+        <button class="btn" id="viewEdit">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Modal -->
+  <div id="adminModal" class="modal" aria-hidden="true">
+    <div class="panel card">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h2 id="adminTitle" style="margin:0">Add Hotel</h2>
+        <button class="btn secondary" id="adminClose">Close</button>
+      </div>
+      <div class="divider"></div>
+      <form id="hotelForm">
+        <input type="hidden" id="hotelId">
+        <label>Hotel name</label>
+        <input id="hotelName" required>
+
+        <div class="row">
+          <div>
+            <label>Area / Address</label>
+            <input id="hotelArea">
+          </div>
+          <div>
+            <label>Base Price (pkR)</label>
+            <input id="hotelPrice" type="number" min="0" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Rating (0-5)</label>
+            <input id="hotelRating" type="number" min="0" max="5" step="0.1">
+          </div>
+          <div>
+            <label>Stars (1-5)</label>
+            <input id="hotelStars" type="number" min="1" max="5">
+          </div>
+        </div>
+
+        <label>Amenities (comma separated)</label>
+        <input id="hotelAmenities" placeholder="WiFi, Breakfast, Parking">
+
+        <label>Short description</label>
+        <textarea id="hotelDesc" rows="2"></textarea>
+
+        <div class="row">
+          <div>
+            <label>Thumbnail letters (for placeholder)</label>
+            <input id="hotelThumb" placeholder="e.g., MH">
+          </div>
+          <div>
+            <label>Image URL (optional)</label>
+            <input id="hotelImage" placeholder="https://...">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <h3 style="margin:0 0 6px 0">Manager</h3>
+        <div class="row">
+          <div>
+            <label>Manager Name</label>
+            <input id="mgrName">
+          </div>
+          <div>
+            <label>Manager Phone</label>
+            <input id="mgrPhone" placeholder="+92...">
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label>Manager Email</label>
+            <input id="mgrEmail" placeholder="manager@example.com">
+          </div>
+          <div>
+            <label>WhatsApp</label>
+            <input id="mgrWa" placeholder="wa.me/...">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <h3 style="margin:0 0 6px 0">Rooms</h3>
+        <div id="roomsEditor" class="rooms"></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button type="button" class="btn secondary" id="addRoom">+ Add Room</button>
+          <div class="small">Tip: mark a room "booked" to see dashboard update.</div>
+        </div>
+
+        <div class="divider"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button type="button" class="btn danger" id="hotelDelete" style="display:none">Delete</button>
+          <button type="submit" class="btn ok">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer>
+      © <span id="year"></span> Murree Heights — All rights reserved
+    </footer>
+
+<script>
+/***** \n  PERSISTENCE STRATEGY\n  - Data edits are saved to localStorage under STORAGE_KEY.\n  - "Save as HTML" button downloads a new HTML file with your current JSON embedded\n    into window.__EMBEDDED_DATA__, so the file itself carries the data permanently.\n*****/
+const STORAGE_KEY = 'hotels_mockups_v2';
+
+// If the HTML came with embedded data, use that once, otherwise use sample.
+const EMBEDDED = (window.__EMBEDDED_DATA__ && Array.isArray(window.__EMBEDDED_DATA__)) ? window.__EMBEDDED_DATA__ : null;
+
+/* ---------- Sample Data: 16 hotels with managers + rooms ---------- */
+const SAMPLE = [
+  {id:'h1',name:'Mall View Hotel',area:'Mall Road',price:4500,rating:4.6,stars:4,amenities:['WiFi','Breakfast','Lake View'],desc:'Comfortable rooms near Mall Road',thumb:'MV',image:'',manager:{name:'Asif Khan',phone:'+92 300 0000001',email:'asif@mallview.pk',wa:'wa.me/3000000001'},rooms:[{id:'r1',type:'Standard',capacity:2,price:4500,status:'available'},{id:'r2',type:'Deluxe',capacity:3,price:5200,status:'booked'}]},
+  {id:'h2',name:'Pine Breeze Inn',area:'New Murree',price:2200,rating:4.2,stars:3,amenities:['WiFi','Parking'],desc:'Cozy and budget-friendly',thumb:'PB',image:'',manager:{name:'Sana Raza',phone:'+92 300 0000002',email:'sana@pinebreeze.pk',wa:''},rooms:[{id:'r1',type:'Budget',capacity:2,price:2200,status:'available'},{id:'r2',type:'Family',capacity:4,price:3000,status:'available'}]},
+  {id:'h3',name:'Hilltop Residency',area:'Patriata',price:6500,rating:4.8,stars:5,amenities:['WiFi','Spa','Restaurant'],desc:'Luxury stay with hill views',thumb:'HR',image:'',manager:{name:'Bilal Rao',phone:'+92 300 0000003',email:'bilal@hilltop.pk',wa:''},rooms:[{id:'r1',type:'Suite',capacity:3,price:7800,status:'booked'},{id:'r2',type:'Executive',capacity:2,price:6500,status:'available'}]},
+  {id:'h4',name:'Valley Cottage',area:'Khanspur',price:1800,rating:4.0,stars:3,amenities:['Breakfast','Parking'],desc:'Quiet cottage style rooms',thumb:'VC',image:'',manager:{name:'Shazia Malik',phone:'+92 300 0000004',email:'shazia@valley.pk',wa:''},rooms:[{id:'r1',type:'Cottage',capacity:2,price:1800,status:'available'}]},
+  {id:'h5',name:'Riverside Lodge',area:'Murree Expressway',price:3200,rating:4.4,stars:4,amenities:['Parking','Restaurant'],desc:'Near the stream, family friendly',thumb:'RL',image:'',manager:{name:'Naeem Iqbal',phone:'+92 300 0000005',email:'naeem@riverside.pk',wa:''},rooms:[{id:'r1',type:'Standard',capacity:2,price:3200,status:'available'},{id:'r2',type:'Twin',capacity:2,price:3400,status:'booked'}]},
+  {id:'h6',name:'Sunset Suites',area:'Mall Road',price:5200,rating:4.5,stars:4,amenities:['WiFi','Breakfast','Balcony'],desc:'Great sunsets from balcony',thumb:'SS',image:'',manager:{name:'Imran Yousaf',phone:'+92 300 0000006',email:'imran@sunset.pk',wa:''},rooms:[{id:'r1',type:'Balcony',capacity:2,price:5200,status:'available'},{id:'r2',type:'Corner',capacity:2,price:5600,status:'available'}]},
+  {id:'h7',name:'Green Pines Hotel',area:'New Murree',price:950,rating:3.8,stars:2,amenities:['Parking'],desc:'Budget stay with essentials',thumb:'GP',image:'',manager:{name:'Ameer Ali',phone:'+92 300 0000007',email:'ameer@greenpines.pk',wa:''},rooms:[{id:'r1',type:'Budget',capacity:2,price:950,status:'booked'},{id:'r2',type:'Budget',capacity:2,price:950,status:'booked'}]},
+  {id:'h8',name:'Cloud Nine Resort',area:'Patriata',price:4800,rating:4.7,stars:5,amenities:['Spa','Pool','Restaurant'],desc:'Resort with full amenities',thumb:'CN',image:'',manager:{name:'Hira Fatima',phone:'+92 300 0000008',email:'hira@cloudnine.pk',wa:''},rooms:[{id:'r1',type:'Pool View',capacity:2,price:5200,status:'available'},{id:'r2',type:'Garden',capacity:3,price:4800,status:'available'},{id:'r3',type:'Suite',capacity:4,price:7000,status:'booked'}]},
+  {id:'h9',name:"Traveler's Rest",area:'Mall Road',price:2500,rating:4.1,stars:3,amenities:['WiFi','Breakfast'],desc:'Friendly staff and central location',thumb:'TR',image:'',manager:{name:'Rabia Qureshi',phone:'+92 300 0000009',email:'rabia@travelers.pk',wa:''},rooms:[{id:'r1',type:'Standard',capacity:2,price:2500,status:'available'}]},
+  {id:'h10',name:'Summit View',area:'Highridge',price:7800,rating:4.9,stars:5,amenities:['Spa','Restaurant','Private Deck'],desc:'Top-tier luxury experience',thumb:'SV',image:'',manager:{name:'Kashif Noor',phone:'+92 300 0000010',email:'kashif@summit.pk',wa:''},rooms:[{id:'r1',type:'Penthouse',capacity:4,price:9800,status:'available'},{id:'r2',type:'Deluxe',capacity:3,price:7800,status:'booked'}]},
+  {id:'h11',name:'Cedar Crest',area:'Bhurban',price:3600,rating:4.3,stars:4,amenities:['WiFi','Parking','Breakfast'],desc:'Elegant rooms near golf course',thumb:'CC',image:'',manager:{name:'Saad Khan',phone:'+92 300 0000011',email:'saad@cedar.pk',wa:''},rooms:[{id:'r1',type:'Queen',capacity:2,price:3600,status:'available'}]},
+  {id:'h12',name:'Snowline Hotel',area:'Kashmir Point',price:4100,rating:4.5,stars:4,amenities:['WiFi','Heater'],desc:'Warm and cozy during winters',thumb:'SN',image:'',manager:{name:'Ayesha Tariq',phone:'+92 300 0000012',email:'ayesha@snowline.pk',wa:''},rooms:[{id:'r1',type:'Heated',capacity:2,price:4100,status:'available'}]},
+  {id:'h13',name:'Pine Cone Villas',area:'Ayubia',price:5400,rating:4.6,stars:4,amenities:['Kitchenette','Parking'],desc:'Villa style with kitchen',thumb:'PC',image:'',manager:{name:'Umer Javed',phone:'+92 300 0000013',email:'umer@pinecone.pk',wa:''},rooms:[{id:'r1',type:'Villa',capacity:5,price:8900,status:'available'}]},
+  {id:'h14',name:'Mist & Meadows',area:'Changla Gali',price:3000,rating:4.0,stars:3,amenities:['Breakfast','WiFi'],desc:'Foggy mornings guaranteed',thumb:'MM',image:'',manager:{name:'Hassan Rafi',phone:'+92 300 0000014',email:'hassan@mist.pk',wa:''},rooms:[{id:'r1',type:'Standard',capacity:2,price:3000,status:'booked'},{id:'r2',type:'Standard',capacity:2,price:3000,status:'available'}]},
+  {id:'h15',name:'Alpine Aura',area:'Nathiagali',price:6200,rating:4.7,stars:5,amenities:['Fireplace','Breakfast','WiFi'],desc:'Premium chalet vibes',thumb:'AA',image:'',manager:{name:'Noor Jehan',phone:'+92 300 0000015',email:'noor@alpine.pk',wa:''},rooms:[{id:'r1',type:'Chalet',capacity:3,price:6800,status:'available'},{id:'r2',type:'Chalet Plus',capacity:4,price:7500,status:'available'}]},
+  {id:'h16',name:'Fern Forest Inn',area:'Murree Hills',price:2600,rating:3.9,stars:3,amenities:['Parking','Breakfast'],desc:'Surrounded by ferns and pines',thumb:'FF',image:'',manager:{name:'Mehwish Ali',phone:'+92 300 0000016',email:'mehwish@fern.pk',wa:''},rooms:[{id:'r1',type:'Twin',capacity:2,price:2600,status:'available'},{id:'r2',type:'Family',capacity:4,price:3400,status:'available'}]}
+];
+
+function load(){
+  try{
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if(stored){ return JSON.parse(stored); }
+  }catch(e){ console.warn('load fail',e); }
+  return EMBEDDED || SAMPLE.slice();
+}
+function save(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+let hotels = load();
+
+/* ---------- DOM refs ---------- */
+const list = document.getElementById('list');
+const empty = document.getElementById('empty');
+const search = document.getElementById('search');
+const filterStars = document.getElementById('filterStars');
+const filterStatus = document.getElementById('filterStatus');
+const sortBy = document.getElementById('sortBy');
+
+const kpiHotels = document.getElementById('kpiHotels');
+const kpiRooms = document.getElementById('kpiRooms');
+const kpiBooked = document.getElementById('kpiBooked');
+const kpiOcc = document.getElementById('kpiOcc');
+
+function hotelRooms(h){ return Array.isArray(h.rooms) ? h.rooms : []; }
+function counts(){
+  const totalHotels = hotels.length;
+  const allRooms = hotels.flatMap(h=>hotelRooms(h));
+  const totalRooms = allRooms.length;
+  const booked = allRooms.filter(r=>r.status==='booked').length;
+  const occ = totalRooms? Math.round((booked/totalRooms)*100) : 0;
+  return {totalHotels,totalRooms,booked,occ};
+}
+function updateKPI(){
+  const c = counts();
+  kpiHotels.textContent = c.totalHotels;
+  kpiRooms.textContent = c.totalRooms;
+  kpiBooked.textContent = c.booked;
+  kpiOcc.textContent = c.occ + '%';
+}
+
+function esc(s){return (s??'').toString().replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function money(n){ return '₨'+ String(Math.round(n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
+
+function hotelAvailable(h){
+  const rs = hotelRooms(h);
+  if(!rs.length) return false;
+  const avail = rs.some(r=>r.status!=='booked');
+  const allBooked = rs.every(r=>r.status==='booked');
+  return {avail,allBooked};
+}
+
+function render(){
+  updateKPI();
+  const q = search.value.trim().toLowerCase();
+  const fs = filterStars.value;
+  const stat = filterStatus.value;
+  let arr = hotels.filter(h=>{
+    if(q){
+      const hay = (h.name+' '+h.area+' '+(h.manager?.name||'')+' '+(h.amenities||[]).join(' ')+' '+(h.desc||'')).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    if(fs!=='all'){
+      const min = Number(fs);
+      if((h.stars||0) < (min===4?4: (min===3?3:(min===2?2:1)))) return false;
+    }
+    if(stat!=='all'){
+      const s = hotelAvailable(h);
+      if(stat==='available' && !(s && s.avail)) return false;
+      if(stat==='booked' && !(s && s.allBooked)) return false;
+    }
+    return true;
+  });
+  if(sortBy.value==='price-asc') arr.sort((a,b)=>a.price-b.price);
+  else if(sortBy.value==='price-desc') arr.sort((a,b)=>b.price-a.price);
+  else if(sortBy.value==='rating-desc') arr.sort((a,b)=> (b.rating||0)-(a.rating||0));
+  else arr.sort((a,b)=> (b.stars||0)-(a.stars||0) || (b.rating||0)-(a.rating||0) || (a.price||0)-(b.price||0));
+
+  list.innerHTML = '';
+  if(!arr.length){ empty.style.display='block'; return; } else empty.style.display='none';
+
+  arr.forEach(h=>{
+    const card = document.createElement('div'); card.className='hotel card';
+    const hasImg = !!(h.image && h.image.trim());
+    const amenities = (h.amenities||[]).slice(0,4).map(a=>`<span class="pill">${esc(a)}</span>`).join('');
+    const av = hotelRooms(h);
+    const booked = av.filter(r=>r.status==='booked').length;
+    const available = av.length - booked;
+    card.innerHTML = `
+      <div class="hotel-head">
+        <div class="thumb">${ hasImg ? `<img src="${esc(h.image)}" alt="${esc(h.name)}">` : `<div class="ph">${esc(h.thumb||h.name?.slice(0,2)||'HT')}</div>` }</div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;gap:8px">
+            <div>
+              <div style="font-weight:800;font-size:16px">${esc(h.name)}</div>
+              <div class="small">${esc(h.area)} · ${esc(h.stars)}★ · ${esc(h.rating)} rating</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">${money(h.price)}</div>
+              <div class="small">base/night</div>
+            </div>
+          </div>
+          <div class="small" style="margin-top:6px">${esc(h.desc||'')}</div>
+          <div class="tags">${amenities}</div>
+          <div class="small" style="margin-top:6px">Rooms: <span class="okc">${available} available</span> · <span class="warn">${booked} booked</span></div>
+        </div>
+      </div>
+      <div class="hotel-actions">
+        <button class="btn secondary btn-view" data-id="${h.id}">View</button>
+        <button class="btn btn-edit" data-id="${h.id}">Edit</button>
+      </div>`;
+    list.appendChild(card);
+  });
+
+  document.querySelectorAll('.btn-view').forEach(b=>b.onclick=()=>openView(b.dataset.id));
+  document.querySelectorAll('.btn-edit').forEach(b=>b.onclick=()=>openAdmin(b.dataset.id));
+}
+
+/* ---------- View Modal ---------- */
+const viewModal = document.getElementById('viewModal');
+const viewClose = document.getElementById('viewClose');
+const viewEdit = document.getElementById('viewEdit');
+const v = {
+  title: document.getElementById('viewTitle'),
+  stars: document.getElementById('viewStars'),
+  rating: document.getElementById('viewRating'),
+  roomCount: document.getElementById('viewRoomCount'),
+  img: document.getElementById('viewImg'),
+  ph: document.getElementById('viewPh'),
+  area: document.getElementById('viewArea'),
+  price: document.getElementById('viewPrice'),
+  am: document.getElementById('viewAmenities'),
+  desc: document.getElementById('viewDesc'),
+  mgr: document.getElementById('viewMgr'),
+  mgrC: document.getElementById('viewMgrContact'),
+  booked: document.getElementById('viewBooked'),
+  avail: document.getElementById('viewAvailable'),
+  rooms: document.getElementById('viewRooms')
+};
+let viewId = null;
+function openView(id){
+  const h = hotels.find(x=>x.id===id); if(!h) return;
+  viewId = id;
+  v.title.textContent = h.name || 'Hotel';
+  v.stars.textContent = (h.stars||0) + '★';
+  v.rating.textContent = h.rating||0;
+  const rs = hotelRooms(h);
+  v.roomCount.textContent = rs.length;
+  if(h.image){ v.img.src = h.image; v.img.style.display='block'; v.ph.style.display='none'; }
+  else { v.img.removeAttribute('src'); v.img.style.display='none'; v.ph.style.display='flex'; v.ph.textContent = h.thumb|| (h.name||'HT').slice(0,2); }
+  v.area.textContent = h.area||'';
+  v.price.textContent = 'Base ' + money(h.price) + '/night';
+  v.am.textContent = 'Amenities: ' + (h.amenities||[]).join(', ');
+  v.desc.textContent = h.desc||'';
+  v.mgr.textContent = (h.manager?.name)||'—';
+  v.mgrC.textContent = [h.manager?.phone,h.manager?.email,h.manager?.wa].filter(Boolean).join(' · ');
+  const booked = rs.filter(r=>r.status==='booked').length;
+  const avail = rs.length - booked;
+  v.booked.textContent = booked; v.avail.textContent = avail;
+  v.rooms.innerHTML = '';
+  rs.forEach(r=>{
+    const el = document.createElement('div'); el.className='room card';
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:700">${esc(r.type)}</div>
+          <div class="small">Capacity ${esc(r.capacity)} · ${money(r.price)}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="status ${r.status==='booked'?'bad':'okc'}">${esc(r.status)}</div>
+          <div style="margin-top:6px;display:flex;gap:6px;justify-content:flex-end">
+            <button class="btn secondary" data-act="toggle" data-id="${r.id}">${r.status==='booked'?'Mark available':'Mark booked'}</button>
+            <button class="btn secondary" data-act="del" data-id="${r.id}">Delete</button>
+          </div>
+        </div>
+      </div>`;
+    v.rooms.appendChild(el);
+  });
+  // actions inside rooms
+  v.rooms.querySelectorAll('button').forEach(btn=>{
+    btn.onclick = ()=>{
+      const act = btn.dataset.act; const rid = btn.dataset.id;
+      const h = hotels.find(x=>x.id===viewId); if(!h) return;
+      const idx = (h.rooms||[]).findIndex(x=>x.id===rid);
+      if(idx<0) return;
+      if(act==='toggle'){
+        h.rooms[idx].status = h.rooms[idx].status==='booked' ? 'available' : 'booked';
+      } else if(act==='del'){
+        if(confirm('Delete this room?')) h.rooms.splice(idx,1);
+      }
+      save(hotels); render(); openView(viewId);
+    };
+  });
+  viewModal.classList.add('open'); viewModal.setAttribute('aria-hidden','false');
+}
+viewClose.onclick = ()=>{ viewModal.classList.remove('open'); viewModal.setAttribute('aria-hidden','true'); };
+viewEdit.onclick = ()=>{ viewModal.classList.remove('open'); openAdmin(viewId); };
+viewModal.onclick = (e)=>{ if(e.target===viewModal) viewClose.onclick(); };
+
+/* ---------- Admin Modal ---------- */
+const adminModal = document.getElementById('adminModal');
+const adminClose = document.getElementById('adminClose');
+const adminTitle = document.getElementById('adminTitle');
+const hotelForm = document.getElementById('hotelForm');
+const roomsEditor = document.getElementById('roomsEditor');
+const addRoomBtn = document.getElementById('addRoom');
+const hotelDelete = document.getElementById('hotelDelete');
+
+function roomRow(r){
+  const id = r?.id || ('r'+Math.random().toString(36).slice(2,9));
+  return {id, el: (()=>{
+    const el = document.createElement('div'); el.className='room card'; el.dataset.id=id;
+    el.innerHTML = `
+      <div class="row">
+        <div>
+          <label>Type</label>
+          <input value="${esc(r?.type||'Standard')}" data-k="type">
+        </div>
+        <div>
+          <label>Capacity</label>
+          <input type="number" min="1" value="${esc(r?.capacity||2)}" data-k="capacity">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Price</label>
+          <input type="number" min="0" value="${esc(r?.price||0)}" data-k="price">
+        </div>
+        <div>
+          <label>Status</label>
+          <select data-k="status">
+            <option value="available" ${r?.status!=='booked'?'selected':''}>available</option>
+            <option value="booked" ${r?.status==='booked'?'selected':''}>booked</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:6px">
+        <button type="button" class="btn secondary" data-act="remove">Remove</button>
+      </div>`;
+    el.querySelector('[data-act="remove"]').onclick = ()=>{ el.remove(); };
+    return el; })() };
+}
+
+function openAdmin(id){
+  const h = hotels.find(x=>x.id===id);
+  document.getElementById('hotelId').value = h? h.id : '';
+  document.getElementById('hotelName').value = h? (h.name||'') : '';
+  document.getElementById('hotelArea').value = h? (h.area||'') : '';
+  document.getElementById('hotelPrice').value = h? (h.price||0) : '';
+  document.getElementById('hotelRating').value = h? (h.rating||0) : '';
+  document.getElementById('hotelStars').value = h? (h.stars||3) : '';
+  document.getElementById('hotelAmenities').value = h? (h.amenities||[]).join(', ') : '';
+  document.getElementById('hotelDesc').value = h? (h.desc||'') : '';
+  document.getElementById('hotelThumb').value = h? (h.thumb||'') : '';
+  document.getElementById('hotelImage').value = h? (h.image||'') : '';
+  document.getElementById('mgrName').value = h? (h.manager?.name||'') : '';
+  document.getElementById('mgrPhone').value = h? (h.manager?.phone||'') : '';
+  document.getElementById('mgrEmail').value = h? (h.manager?.email||'') : '';
+  document.getElementById('mgrWa').value = h? (h.manager?.wa||'') : '';
+  roomsEditor.innerHTML = '';
+  (h?.rooms||[]).forEach(r=> roomsEditor.appendChild(roomRow(r).el));
+  adminTitle.textContent = h? 'Edit Hotel' : 'Add Hotel';
+  hotelDelete.style.display = h? 'inline-block' : 'none';
+  adminModal.classList.add('open'); adminModal.setAttribute('aria-hidden','false');
+}
+
+adminClose.onclick = ()=>{ adminModal.classList.remove('open'); adminModal.setAttribute('aria-hidden','true'); };
+adminModal.onclick = (e)=>{ if(e.target===adminModal) adminClose.onclick(); };
+
+addRoomBtn.onclick = ()=>{ roomsEditor.appendChild(roomRow({}).el); };
+
+hotelForm.onsubmit = (e)=>{
+  e.preventDefault();
+  const id = document.getElementById('hotelId').value || ('h'+Math.random().toString(36).slice(2,9));
+  const h = {
+    id,
+    name: document.getElementById('hotelName').value.trim(),
+    area: document.getElementById('hotelArea').value.trim(),
+    price: Number(document.getElementById('hotelPrice').value)||0,
+    rating: Number(document.getElementById('hotelRating').value)||0,
+    stars: Number(document.getElementById('hotelStars').value)||1,
+    amenities: (document.getElementById('hotelAmenities').value||'').split(',').map(s=>s.trim()).filter(Boolean),
+    desc: document.getElementById('hotelDesc').value.trim(),
+    thumb: document.getElementById('hotelThumb').value.trim(),
+    image: document.getElementById('hotelImage').value.trim(),
+    manager: {
+      name: document.getElementById('mgrName').value.trim(),
+      phone: document.getElementById('mgrPhone').value.trim(),
+      email: document.getElementById('mgrEmail').value.trim(),
+      wa: document.getElementById('mgrWa').value.trim()
+    },
+    rooms: Array.from(roomsEditor.children).map(el=>({
+      id: el.dataset.id,
+      type: el.querySelector('[data-k="type"]').value.trim(),
+      capacity: Number(el.querySelector('[data-k="capacity"]').value)||1,
+      price: Number(el.querySelector('[data-k="price"]').value)||0,
+      status: el.querySelector('[data-k="status"]').value
+    }))
+  };
+  const idx = hotels.findIndex(x=>x.id===id);
+  if(idx>=0) hotels[idx] = h; else hotels.push(h);
+  save(hotels); render(); adminClose.onclick();
+};
+
+hotelDelete.onclick = ()=>{
+  const id = document.getElementById('hotelId').value; if(!id) return;
+  if(confirm('Delete this hotel?')){
+    hotels = hotels.filter(h=>h.id!==id); save(hotels); render(); adminClose.onclick();
+  }
+};
+
+/* ---------- Import/Export/Download ---------- */
+const btnExportJson = document.getElementById('btnExportJson');
+const btnImportJson = document.getElementById('btnImportJson');
+const fileIn = document.getElementById('fileIn');
+const btnDownloadHtml = document.getElementById('btnDownloadHtml');
+const btnReset = document.getElementById('btnReset');
+
+btnExportJson.onclick = ()=>{
+  const blob = new Blob([JSON.stringify(hotels,null,2)],{type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='hotels.json'; a.click();
+};
+btnImportJson.onclick = ()=> fileIn.click();
+fileIn.onchange = (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const rd = new FileReader();
+  rd.onload = ()=>{
+    try{ const j = JSON.parse(rd.result); if(!Array.isArray(j)) throw new Error('Top-level must be an array'); hotels = j; save(hotels); render(); alert('Imported '+hotels.length+' hotels.'); }
+    catch(err){ alert('Invalid JSON: '+err.message); }
+  };
+  rd.readAsText(f);
+};
+
+btnDownloadHtml.onclick = ()=>{
+  const template = document.documentElement.outerHTML;
+  const inject = `\n<script>\n  window.__EMBEDDED_DATA__ = ${JSON.stringify(hotels)};\n<\/script>`;
+  // Insert before existing scripts to ensure early availability
+  const idx = template.indexOf('</head>');
+  const withData = template.slice(0, idx) + inject + template.slice(idx);
+  const blob = new Blob([withData],{type:'text/html'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='hotels-dashboard.html'; a.click();
+};
+
+btnReset.onclick = ()=>{
+  if(confirm('Reset to sample dataset (16 hotels)? This will overwrite current data.')){
+    hotels = SAMPLE.slice(); save(hotels); render();
+  }
+};
+
+/* ---------- Wire filters ---------- */
+[search,filterStars,filterStatus,sortBy].forEach(el=> el.addEventListener('input', render));
+
+/* ---------- Initial render ---------- */
+render();
+
+/* Accessibility: Escape to close modals */
+addEventListener('keydown',(e)=>{ if(e.key==='Escape'){ viewClose.onclick(); adminClose.onclick(); }});
+</script>
+</body>
+</html>

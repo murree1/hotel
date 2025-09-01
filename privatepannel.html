@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Murree Heights — Booking Panel</title>
+  <style>
+    :root {
+  --bg: #f9fafb;         /* light background */
+  --card: #ffffff;       /* white card */
+  --ink: #111827;        /* dark text */
+  --muted: #6b7280;      /* gray text */
+  --brand: #0d9488;      /* teal */
+  --accent: #84cc16;     /* lime */
+  --danger: #dc2626;     /* red */
+  --warning: #f59e0b;    /* amber */
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky; top: 0; z-index: 5;
+}
+header .title { display: flex; gap: 10px; align-items: center; font-weight: 700; }
+header .title .logo {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: linear-gradient(135deg,var(--brand),var(--accent));
+  display: grid; place-items: center; font-weight: 900; color:#fff;
+}
+header .title .brand { font-size: 18px; color: var(--ink); }
+header .right { display:flex; gap:8px; align-items:center; }
+
+.btn {
+  border: 0; border-radius: 10px;
+  padding: 10px 14px; color: white;
+  cursor: pointer; font-weight: 600; letter-spacing:.2px;
+}
+.btn.brand { background: var(--brand); }
+.btn.gray { background: #6b7280; }
+.btn.danger { background: var(--danger); }
+.btn.small { padding: 6px 10px; font-size: 12px; }
+
+/* Login Card */
+.center { display: grid; place-items: center; min-height: 100vh; padding: 24px; }
+.card {
+  width: min(420px, 90vw);
+  background: var(--card);
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  padding: 28px;
+}
+.card h1 { margin: 0 0 8px; font-size: 1.4rem; color: var(--ink); }
+.sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 18px; }
+.row { display: grid; gap: 12px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+label { font-size: 0.75rem; color: var(--muted); }
+input, select, textarea {
+  width: 100%; padding: 10px 12px;
+  background: #f9fafb; border: 1px solid #e5e7eb;
+  border-radius: 10px; color: var(--ink); outline: none;
+}
+textarea { min-height: 70px; resize: vertical; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--brand); box-shadow: 0 0 0 3px rgba(13,148,136,.2);
+}
+
+/* Layout */
+.shell { max-width: 1200px; margin: 22px auto; padding: 0 18px 40px; }
+.metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+.metric {
+  background: var(--card);
+  border: 1px solid #e5e7eb;
+  border-radius: 14px; padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+.metric h3 { margin:0 0 6px; font-size: 0.8rem; color: var(--muted); font-weight: 600; }
+.metric p { margin:0; font-size: 1.4rem; font-weight: 800; color: var(--ink); }
+
+.panel {
+  margin-top: 18px;
+  background: var(--card);
+  border: 1px solid #e5e7eb;
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+.panel-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+.panel-header h2 { margin:0; font-size: 0.9rem; color: var(--muted); }
+
+.table-wrapper { overflow-x: auto; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.8rem; background: #fff;
+}
+thead { background: #f3f4f6; }
+th, td { padding: 10px 8px; border-bottom: 1px solid #e5e7eb; text-align: left; white-space: nowrap; color: var(--ink); }
+tbody tr:hover { background: #f9fafb; }
+
+.badge {
+  padding: 4px 8px; border-radius: 999px;
+  font-size: 0.7rem; font-weight: 700;
+  display:inline-block;
+}
+.badge.pending { background: #fef3c7; color: #b45309; }
+.badge.review { background: #dbeafe; color: #1d4ed8; }
+.badge.confirmed { background: #dcfce7; color: #15803d; }
+
+.hidden { display:none !important; }
+
+/* Slip modal */
+#slip-modal {
+  position: fixed; inset: 0;
+  display:none; align-items:center; justify-content:center;
+  background: rgba(0,0,0,.45); z-index: 999;
+}
+#slip {
+  width: 950px; max-width: 95vw;
+  background: #fff; color: var(--ink);
+  border-radius: 12px; overflow:hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,.25);
+}
+#slip .top {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px; background: var(--brand); color:#fff;
+}
+#slip .top .pass {
+  font-size: 1.2rem; font-weight: 900;
+  background:#fff; color: var(--brand);
+  padding:8px 12px; border-radius:10px;
+}
+#slip .body {
+  display:grid; grid-template-columns: 2fr 1fr; gap:16px; padding:18px 20px;
+}
+#slip .col { background:#f9fafb; border-radius:10px; padding:14px; }
+#slip .field { font-size:0.8rem; }
+#slip .fromto {
+  background:var(--brand); color:white;
+  border-radius:10px; padding:12px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+#slip .yellow {
+  margin-top:14px; background:#fde047; color:#7c2d12;
+  padding:8px 10px; font-size:0.75rem;
+  border-radius:8px; font-weight:700;
+}
+#slip .actions {
+  display:flex; justify-content:flex-end; gap:8px;
+  padding: 8px 12px 16px;
+}
+
+/* Printing */
+@media print {
+  body * { visibility: hidden; }
+  #slip, #slip * { visibility: visible; }
+  #slip { position: absolute; inset: 0; margin: 0; box-shadow: none; border-radius: 0; }
+  #slip .actions { display:none; }
+}
+
+/* -------- Responsive Tweaks -------- */
+@media (max-width: 1024px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .metrics { grid-template-columns: 1fr; }
+  .row2 { grid-template-columns: 1fr; }
+  header { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+@media (max-width: 480px) {
+  body { font-size: 14px; }
+  .btn { padding: 8px 12px; font-size: 0.85rem; }
+  table { font-size: 0.7rem; }
+  th, td { padding: 6px 4px; }
+}
+
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="login" class="center">
+    <div class="card">
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:6px;">
+        <div class="logo" style="width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#2563eb,#22c55e)"><span style="font-weight:900">MH</span></div>
+        <div>
+          <h1 style="margin:0;font-size:20px">Murree Heights</h1>
+          <div class="sub">Private Booking Panel</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Username</label>
+          <input id="u" placeholder="e.g. staff / manager / Zulquarnain Sajid" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input id="p" type="password" placeholder="••••••••" />
+        </div>
+        <button class="btn brand" onclick="login()">Sign in</button>
+        <div id="login-msg" class="sub" style="color:#fca5a5"></div>
+        <div class="sub">Roles: <b>staff</b>, <b>manager</b>, <b>Zulquarnain Sajid</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARDS -->
+  <header id="appbar" class="hidden">
+    <div class="title"><div class="logo">MH</div><div class="brand" id="role-title">Murree Heights</div></div>
+    <div class="right">
+      <button class="btn gray small" onclick="exportCSV('all')">Export All CSV</button>
+      <button id="btn-export-confirmed" class="btn gray small hidden" onclick="exportCSV('confirmed')">Export Confirmed CSV</button>
+    <a href="hotels%20listing.html" >   <button class="btn gray small" > Hotels </button> </a>
+      <button class="btn danger" onclick="logout()">Logout</button>
+    </div>
+  </header>
+
+  <div id="ceo" class="shell hidden">
+    <div class="metrics">
+      <div class="metric"><h3>Total Bookings</h3><p id="m-total">0</p></div>
+      <div class="metric"><h3>Confirmed (Paid)</h3><p id="m-confirmed">0</p></div>
+      <div class="metric"><h3>Total Revenue (PKR)</h3><p id="m-revenue">0</p></div>
+      <div class="metric"><h3>MH Profit 10% (PKR)</h3><p id="m-profit">0</p></div>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-header"><h2>Awaiting CEO Confirmation</h2></div>
+      <table>
+        <thead><tr>
+          <th>Client</th><th>Phone</th><th>Hotel</th><th>Check-in</th><th>Nights</th><th>Guests</th><th>Room</th><th>Amount</th><th>Advance</th><th>Status</th><th>Action</th>
+        </tr></thead>
+        <tbody id="ceo-await"></tbody>
+      </table>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-header"><h2>All Confirmed Bookings</h2></div>
+      <table>
+        <thead><tr>
+          <th>Booking #</th><th>Client</th><th>Hotel</th><th>Dates</th><th>Total</th><th>Profit (10%)</th><th>Net to Hotel</th><th>Slip</th>
+        </tr></thead>
+        <tbody id="ceo-confirmed"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="manager" class="shell hidden">
+    <div class="metrics">
+      <div class="metric"><h3>Pending from Staff</h3><p id="mg-pending">0</p></div>
+      <div class="metric"><h3>Sent to CEO</h3><p id="mg-sent">0</p></div>
+      <div class="metric"><h3>Confirmed</h3><p id="mg-ok">0</p></div>
+      <div class="metric"><h3>Today</h3><p id="mg-today">0</p></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><h2>Review & Forward to CEO</h2></div>
+      <table>
+        <thead><tr>
+          <th>Client</th><th>Phone</th><th>Hotel</th><th>Check-in</th><th>Nights</th><th>Guests</th><th>Room</th><th>Amount</th><th>Status</th><th>Action</th>
+        </tr></thead>
+        <tbody id="mgr-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="staff" class="shell hidden">
+    <div class="panel">
+      <div class="panel-header"><h2>Enter Client Booking</h2></div>
+      <div class="card" style="width:auto;max-width:100%;background:transparent;border:0;box-shadow:none;padding:16px;">
+        <form onsubmit="saveBooking(event)" class="row">
+          <div class="row2">
+            <div><label>Client Name</label><input id="b-client" required /></div>
+            <div><label>Phone / WhatsApp</label><input id="b-phone" required /></div>
+          </div>
+          <div class="row2">
+            <div><label>Hotel Name</label><input id="b-hotel" required /></div>
+            <div><label>Room Type</label><input id="b-room" placeholder="Deluxe / Family / Suite" required /></div>
+          </div>
+          <div class="row2">
+            <div><label>Check-in</label><input id="b-in" type="date" required /></div>
+            <div><label>Nights</label><input id="b-nights" type="number" min="1" value="1" required /></div>
+          </div>
+          <div class="row2">
+            <div><label>Guests</label><input id="b-guests" type="number" min="1" value="2" required /></div>
+            <div><label>Total Amount (PKR)</label><input id="b-amount" type="number" min="0" required /></div>
+          </div>
+          <div class="row2">
+            <div><label>Advance Paid (PKR)</label><input id="b-advance" type="number" value="0" min="0" required /></div>
+            <div><label>Payment Method</label>
+              <select id="b-method" required>
+                <option value="Cash">On Hotel</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Card">Card</option>
+                <option value="EasyPaisa">EasyPaisa</option>
+                <option value="JazzCash">JazzCash</option>
+              </select>
+            </div>
+          </div>
+          <div><label>Notes (optional)</label><textarea id="b-notes" placeholder="Any special request, extra bed, view, etc."></textarea></div>
+          <button class="btn brand" type="submit">Save Booking (Send to Manager)</button>
+          <div id="staff-msg" class="sub"></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="panel-header"><h2>Your Recently Entered (Pending)</h2></div>
+      <table>
+        <thead><tr>
+          <th>#</th><th>Client</th><th>Hotel</th><th>Dates</th><th>Guests</th><th>Amount</th><th>Status</th>
+        </tr></thead>
+        <tbody id="staff-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIP MODAL -->
+  <div id="slip-modal">
+    <div id="slip">
+      <div class="top">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="logo" style="background:linear-gradient(135deg,#2563eb,#22c55e);width:42px;height:42px;border-radius:10px;display:grid;place-items:center;color:white;font-weight:900">MH</div>
+          <div style="font-weight:800">Murree Heights</div>
+        </div>
+        <div class="pass">BOOKING PASS</div>
+        <div style="background:#0b5bd3;padding:6px 10px;border-radius:10px;font-weight:800">THANK YOU</div>
+      </div>
+      <div class="body">
+        <div class="col">
+          <div class="grid">
+            <div class="field"><b>Client Name:</b> <span id="s-client"></span></div>
+            <div class="field"><b>Booking No:</b> <span id="s-booking"></span></div>
+            <div class="field"><b>Date:</b> <span id="s-date"></span></div>
+            <div class="field"><b>Room Type:</b> <span id="s-room"></span></div>
+            <div class="field"><b>Guests:</b> <span id="s-guests"></span></div>
+            <div class="field"><b>Nights:</b> <span id="s-nights"></span></div>
+          </div>
+          <div class="yellow">THIS PASS MUST BE SIGNED BY FRONT DESK OFFICER AT CHECK‑IN. IT CONFIRMS YOUR RESERVATION AT THIS HOTEL.</div>
+        </div>
+        <div class="col">
+          <div class="fromto"><div><div style="font-size:11px;opacity:.8">FROM:</div><div style="font-weight:900">MURREE HEIGHTS</div></div><div><div style="font-size:11px;opacity:.8">TO:</div><div id="s-hotel" style="font-weight:900">Hotel</div></div></div>
+          <div style="margin-top:10px;background:#fff;border-radius:10px;padding:10px;">
+            <div class="field"><b>Total (PKR):</b> <span id="s-total"></span></div>
+            <div class="field"><b>Advance:</b> <span id="s-advance"></span></div>
+            <div class="field"><b>MH Profit 10%:</b> <span id="s-profit"></span></div>
+            <div class="field"><b>Net to Hotel:</b> <span id="s-net"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn gray" onclick="closeSlip()">Close</button>
+        <button class="btn brand" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---------------------- Utilities & Storage ----------------------
+    const LS_KEY = 'mh_bookings_v1';
+    const COMMISSION = 0.10; // 10%
+
+    const qs  = (s, r=document) => r.querySelector(s);
+    const qsa = (s, r=document) => [...r.querySelectorAll(s)];
+
+    function load() { try { return JSON.parse(localStorage.getItem(LS_KEY)||'[]'); } catch { return []; } }
+    function save(data) { localStorage.setItem(LS_KEY, JSON.stringify(data)); }
+
+    function genBookingNo() {
+      const now = new Date();
+      const y = now.getFullYear().toString().slice(-2);
+      const m = String(now.getMonth()+1).padStart(2,'0');
+      const d = String(now.getDate()).padStart(2,'0');
+      const seq = (load().filter(b=>b.bookingNo && b.bookingNo.startsWith(`MH-${y}${m}${d}`)).length + 1).toString().padStart(3,'0');
+      return `MH-${y}${m}${d}-${seq}`;
+    }
+
+    function money(n){ return Number(n||0).toLocaleString('en-PK'); }
+
+    function summarize() {
+      const all = load();
+      const confirmed = all.filter(b=>b.status==='confirmed');
+      const sent = all.filter(b=>b.status==='sent');
+      const pending = all.filter(b=>b.status==='pending');
+
+      // CEO metrics
+      if (!qs('#ceo').classList.contains('hidden')) {
+        qs('#m-total').textContent = all.length;
+        qs('#m-confirmed').textContent = confirmed.length;
+        const totalRevenue = confirmed.reduce((s,b)=>s+Number(b.amount||0),0);
+        const profit = Math.round(totalRevenue * COMMISSION);
+        qs('#m-revenue').textContent = money(totalRevenue);
+        qs('#m-profit').textContent = money(profit);
+
+        // awaiting table
+        const awaitBody = qs('#ceo-await'); awaitBody.innerHTML = '';
+        sent.forEach(b=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${b.client}</td>
+            <td>${b.phone||''}</td>
+            <td>${b.hotel}</td>
+            <td>${b.checkIn}</td>
+            <td>${b.nights}</td>
+            <td>${b.guests}</td>
+            <td>${b.room}</td>
+            <td>${money(b.amount)}</td>
+            <td>${money(b.advance)}</td>
+            <td><span class="badge review">manager‑checked</span></td>
+            <td><button class="btn brand small" onclick='ceoConfirm("${b.id}")'>Confirm & Slip</button></td>`;
+          awaitBody.appendChild(tr);
+        });
+
+        // confirmed table
+        const cBody = qs('#ceo-confirmed'); cBody.innerHTML = '';
+        confirmed.slice().reverse().forEach(b=>{
+          const profit = Math.round(Number(b.amount)*COMMISSION);
+          const net = Number(b.amount) - profit;
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${b.bookingNo}</td>
+            <td>${b.client}</td>
+            <td>${b.hotel}</td>
+            <td>${b.checkIn} • ${b.nights} nights</td>
+            <td>${money(b.amount)}</td>
+            <td>${money(profit)}</td>
+            <td>${money(net)}</td>
+            <td><button class="btn gray small" onclick='showSlip("${b.id}")'>View</button></td>`;
+          cBody.appendChild(tr);
+        });
+      }
+
+      // Manager metrics + table
+      if (!qs('#manager').classList.contains('hidden')) {
+        qs('#mg-pending').textContent = pending.length;
+        qs('#mg-sent').textContent = sent.length;
+        qs('#mg-ok').textContent = confirmed.length;
+        qs('#mg-today').textContent = all.filter(b=>new Date(b.createdAt).toDateString()===new Date().toDateString()).length;
+
+        const body = qs('#mgr-table'); body.innerHTML = '';
+        pending.forEach(b=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${b.client}</td>
+            <td>${b.phone||''}</td>
+            <td>${b.hotel}</td>
+            <td>${b.checkIn}</td>
+            <td>${b.nights}</td>
+            <td>${b.guests}</td>
+            <td>${b.room}</td>
+            <td>${money(b.amount)}</td>
+            <td><span class="badge pending">pending</span></td>
+            <td><button class="btn brand small" onclick='managerSend("${b.id}")'>Verify & Send</button>
+                <button class="btn danger small" onclick='removeBooking("${b.id}")'>Delete</button></td>`;
+          body.appendChild(tr);
+        });
+      }
+
+      // Staff table
+      if (!qs('#staff').classList.contains('hidden')) {
+        const body = qs('#staff-table'); body.innerHTML = '';
+        load().filter(b=>b.status==='pending').slice(-10).reverse().forEach((b,i)=>{
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${i+1}</td>
+            <td>${b.client}</td>
+            <td>${b.hotel}</td>
+            <td>${b.checkIn} • ${b.nights} nights</td>
+            <td>${b.guests}</td>
+            <td>${money(b.amount)}</td>
+            <td><span class="badge pending">pending</span></td>`;
+          body.appendChild(tr);
+        });
+      }
+    }
+
+    // ---------------------- Auth ----------------------
+    let CURRENT_ROLE = null;
+    function login(){
+      const u = qs('#u').value.trim();
+      const p = qs('#p').value.trim();
+      const msg = qs('#login-msg'); msg.textContent = '';
+
+      if (u==='Zulquarnain Sajid' && p==='ceo123') CURRENT_ROLE='ceo';
+      else if (u==='manager' && p==='manager321') CURRENT_ROLE='manager';
+      else if (u==='staff' && p==='staff321') CURRENT_ROLE='staff';
+      else { msg.textContent='Invalid credentials'; return; }
+
+      qs('#login').classList.add('hidden');
+      qs('#appbar').classList.remove('hidden');
+      qs('#role-title').textContent = `Logged in as ${CURRENT_ROLE.toUpperCase()}`;
+      qsa('#ceo, #manager, #staff').forEach(el=>el.classList.add('hidden'));
+      if (CURRENT_ROLE==='ceo') { qs('#ceo').classList.remove('hidden'); qs('#btn-export-confirmed').classList.remove('hidden'); }
+      if (CURRENT_ROLE==='manager') qs('#manager').classList.remove('hidden');
+      if (CURRENT_ROLE==='staff') qs('#staff').classList.remove('hidden');
+      summarize();
+    }
+    function logout(){ CURRENT_ROLE=null; qsa('#ceo,#manager,#staff,#appbar').forEach(el=>el.classList.add('hidden')); qs('#login').classList.remove('hidden'); }
+
+    // ---------------------- Staff: Save booking ----------------------
+    function saveBooking(e){
+      e.preventDefault();
+      const b = {
+        id: crypto.randomUUID(),
+        client: qs('#b-client').value.trim(),
+        phone: qs('#b-phone').value.trim(),
+        hotel: qs('#b-hotel').value.trim(),
+        room: qs('#b-room').value.trim(),
+        checkIn: qs('#b-in').value,
+        nights: Number(qs('#b-nights').value||1),
+        guests: Number(qs('#b-guests').value||1),
+        amount: Number(qs('#b-amount').value||0),
+        advance: Number(qs('#b-advance').value||0),
+        method: qs('#b-method').value,
+        notes: qs('#b-notes').value.trim(),
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+      if (!b.client || !b.hotel || !b.checkIn) { alert('Please fill all required fields.'); return; }
+      const data = load(); data.push(b); save(data);
+      e.target.reset();
+      qs('#staff-msg').textContent = '✅ Saved. Manager will review now.';
+      setTimeout(()=> qs('#staff-msg').textContent='', 2500);
+      summarize();
+    }
+
+    // ---------------------- Manager: verify & send ----------------------
+    function managerSend(id){
+      const data = load();
+      const b = data.find(x=>x.id===id); if (!b) return;
+      b.status = 'sent';
+      b.sentAt = new Date().toISOString();
+      b.bookingNo = genBookingNo();
+      save(data);
+      summarize();
+    }
+    function removeBooking(id){ save(load().filter(b=>b.id!==id)); summarize(); }
+
+    // ---------------------- CEO: confirm & slip ----------------------
+    function ceoConfirm(id){
+      const data = load();
+      const b = data.find(x=>x.id===id); if (!b) return;
+      b.status = 'confirmed';
+      b.confirmedAt = new Date().toISOString();
+      save(data);
+      showSlip(id);
+      summarize();
+    }
+
+    // ---------------------- Slip ----------------------
+    function showSlip(id){
+      const b = load().find(x=>x.id===id); if(!b) return;
+      const profit = Math.round(Number(b.amount) * COMMISSION);
+      const net = Number(b.amount) - profit;
+      qs('#s-client').textContent = b.client;
+      qs('#s-booking').textContent = b.bookingNo || '(pending no)';
+      qs('#s-date').textContent = new Date(b.confirmedAt||b.sentAt||b.createdAt).toLocaleDateString();
+      qs('#s-room').textContent = b.room;
+      qs('#s-guests').textContent = b.guests;
+      qs('#s-nights').textContent = b.nights;
+      qs('#s-hotel').textContent = b.hotel;
+      qs('#s-total').textContent = money(b.amount);
+      qs('#s-advance').textContent = money(b.advance);
+      qs('#s-profit').textContent = money(b.profit);
+      qs('#s-net').textContent = money(net);
+      qs('#slip-modal').style.display = 'flex';
+    }
+    function closeSlip(){ qs('#slip-modal').style.display='none'; }
+
+    // ---------------------- Export CSV ----------------------
+    function exportCSV(kind='all'){
+      const all = load();
+      const rows = [['Booking No','Status','Client','Phone','Hotel','Room','CheckIn','Nights','Guests','Amount','Advance','Method','MH Profit 10%','Net to Hotel','Created','Confirmed']];
+      (kind==='confirmed' ? all.filter(b=>b.status==='confirmed') : all).forEach(b=>{
+        const profit = Math.round(Number(b.amount)*COMMISSION);
+        const net = Number(b.amount) - profit;
+        rows.push([
+          b.bookingNo||'', b.status, b.client, b.phone||'', b.hotel, b.room, b.checkIn, b.nights, b.guests,
+          b.amount, b.advance, b.method, profit, net, b.createdAt||'', b.confirmedAt||''
+        ]);
+      });
+      const csv = rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = kind==='confirmed' ? 'mh_confirmed_bookings.csv' : 'mh_all_bookings.csv';
+      a.click();
+    }
+
+    // ---------------------- Boot ----------------------
+    // Optional seed for demo if empty
+    if (load().length===0) {
+      save([
+        {id: crypto.randomUUID(), client:'Zulquarnain', phone:'03xx‑xxxxxxx', hotel:'Summer Palace', room:'Deluxe', checkIn: new Date().toISOString().slice(0,10), nights:0, guests:0, amount:1, advance:0, method:'Cash', notes:'', status:'pending', createdAt:new Date().toISOString()},
+      ]);
+    }
+  </script>
+</body>
+</html>

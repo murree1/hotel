@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Murree Heights — Menu & Membership</title>
+  <style>
+    :root{
+      --bg:#fcfcfc;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --accent:#16a34a;
+      --accent-2:#10b981;
+      --border:#e6e9ee;
+      --shadow: 0 8px 24px rgba(19, 24, 33, 0.06);
+      --radius:14px;
+      --maxw:1100px;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg, #fbfdff 0%, #f7f9fb 100%);
+      color:#111827;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* Top nav */
+    header.top{
+      background:var(--card);
+      position:sticky; top:0;
+      border-bottom:1px solid var(--border);
+      backdrop-filter: blur(6px);
+      z-index:40;
+    }
+    .top .wrap{
+      max-width:var(--maxw);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 18px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .brand h1{
+      margin:0;
+      font-size:1.05rem;
+      letter-spacing:0.2px;
+    }
+    nav.topnav a{
+      color:var(--muted);
+      text-decoration:none;
+      margin-left:12px;
+      font-weight:600;
+      padding:8px 10px;
+      border-radius:8px;
+    }
+    nav.topnav a:hover{ background:#f0f3f6; color:#0f172a; }
+
+    /* Page container */
+    .container{
+      max-width:var(--maxw);
+      margin:28px auto;
+      padding:0 18px 60px;
+    }
+
+    /* Hero */
+    .hero{
+      display:flex;
+      flex-wrap:wrap;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .hero .title{
+      flex:1 1 420px;
+      background:linear-gradient(180deg, #fff, #fff);
+      padding:18px 20px;
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+    .hero h2{ margin:0 0 6px; font-size:1.25rem; color:#0f172a; }
+    .hero p{ margin:0; color:var(--muted); }
+
+    /* Layout columns: menu + side info */
+    .layout{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:18px;
+    }
+    @media (max-width:980px){
+      .layout{ grid-template-columns: 1fr; }
+      nav.topnav a{ margin-left:8px; font-size:14px;}
+    }
+
+    /* Accordion / Menu block */
+    .menu-block{
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .accordion-item{
+      border-bottom:1px solid #f1f4f7;
+    }
+    .accordion-item:last-child{ border-bottom:none; }
+
+    .accordion-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:14px 12px;
+      cursor:pointer;
+      background:linear-gradient(90deg,#fff,#fff);
+      transition:background .18s;
+      font-weight:700;
+      color:#0f172a;
+      font-size:16px;
+    }
+    .accordion-title small{ color:var(--muted); font-weight:600; margin-left:8px; font-size:12px; }
+
+    .accordion-title:hover{ background:#fbfcfd; }
+
+    .accordion-content{
+      padding:9px 14px 8px 14px;
+      background:var(--card);
+      transition: max-height .32s ease;
+      overflow:hidden;
+      max-height:0;
+    }
+
+    .menu-grid{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .menu-row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 0;
+      border-bottom:1px dashed #f1f5f9;
+      align-items:center;
+    }
+    .menu-row:last-child{ border-bottom:none; }
+    .name{ color:#111827; font-weight:600;}
+    .meta{ color:var(--muted); font-size:13px; }
+    .price{ color:var(--accent); font-weight:700; min-width:80px; text-align:right; }
+
+    /* Side cards: membership & card */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .side .card{
+      background:linear-gradient(180deg,#ffffff,#fbfffb);
+      padding:16px;
+      border-radius:12px;
+      border:1px solid rgba(16,163,82,0.08);
+      box-shadow:0 8px 30px rgba(16,163,82,0.06);
+    }
+    .side .card h3{ margin:0 0 8px; color:#064e3b; }
+    .side .card p{ margin:0; color:var(--muted); }
+    .features{ margin-top:10px; padding-left:16px; color:#0f172a; }
+    .features li{ margin:8px 0; }
+
+    /* footer */
+    footer{
+      margin-top:28px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    /* open state */
+    .open .accordion-content{ max-height:2000px; }
+
+    /* small helpers */
+    .muted { color:var(--muted); font-size:13px; }
+    .btn{
+      display:inline-block;
+      padding:10px 14px;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;
+      text-decoration:none;
+      font-weight:700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top nav -->
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#e6fff1,#d1fae5);display:flex;align-items:center;justify-content:center;font-weight:800;color:#065f46">MH</div>
+        <div>
+          <h1 style="margin:0;font-size:16px">Usmania </h1>
+          <div class="muted" style="font-size:13px">Menu & Membership</div>
+        </div>
+      </div>
+
+      <nav class="topnav" aria-label="Main navigation">
+        <a href="#menu">Menu</a>
+        <a href="#membership">Membership</a>
+        <a href="#card"> 1000 Card</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="title">
+        <h2>Full Menu &#95; Murree Heights</h2>
+        <p class="muted">Interactive menu — click a category to expand. Prices are shown in PKR. Service charges may apply as per restaurant policy.</p>
+      </div>
+      <div style="min-width:240px;display:flex;gap:10px;align-items:center;justify-content:flex-end;">
+        <a class="btn" href="#membership">Become a Member</a>
+      </div>
+    </section>
+
+    <div class="layout" style="margin-top:18px;">
+      <!-- Left: Menu -->
+      <section id="menu" class="menu-block" aria-label="Food menu">
+
+        <!-- ********** PAKISTANI FOODS ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Pakistani Foods <small>Traditional mains</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Chicken Karahi (Full)</div><div class="price">1890</div></div>
+              <div class="menu-row"><div class="name">Chicken Ginger</div><div class="price">1500</div></div>
+              <div class="menu-row"><div class="name">Chicken Jalfarzi</div><div class="price">1500</div></div>
+              <div class="menu-row"><div class="name">Chicken Quorma</div><div class="price">700</div></div>
+              <div class="menu-row"><div class="name">Mutton Karahi (Per Kg)</div><div class="price">3800</div></div>
+              <div class="menu-row"><div class="name">Mutton Biryani</div><div class="price">1000</div></div>
+              <div class="menu-row"><div class="name">Brain Masala</div><div class="price">1300</div></div>
+              <div class="menu-row"><div class="name">Nargasi Kofta</div><div class="price">600</div></div>
+              <div class="menu-row"><div class="name">Quail Masala</div><div class="price">700</div></div>
+              <div class="menu-row"><div class="name">Mix Vegetable</div><div class="price">500</div></div>
+              <div class="menu-row"><div class="name">Daal Mash</div><div class="price">550</div></div>
+              <div class="menu-row"><div class="name">Mutton Quorma</div><div class="price">1300</div></div>
+              <div class="menu-row"><div class="name">Mutton Spinach</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Chicken Kabab Masala</div><div class="price">900</div></div>
+              <div class="menu-row"><div class="name">Chooza Masala</div><div class="price">1700</div></div>
+              <div class="menu-row"><div class="name">Chicken Biryani</div><div class="price">800</div></div>
+              <div class="menu-row"><div class="name">Mutton Ginger</div><div class="price">2000</div></div>
+              <div class="menu-row"><div class="name">Mutton Jalfarzi</div><div class="price">2000</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** SALAD ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Salad <small>Fresh & chilled</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Russian Salad</div><div class="price">600</div></div>
+              <div class="menu-row"><div class="name">Fresh Salad</div><div class="price">180</div></div>
+              <div class="menu-row"><div class="name">Raita</div><div class="price">210</div></div>
+              <div class="menu-row"><div class="name">Macaroni Salad</div><div class="price">400</div></div>
+              <div class="menu-row"><div class="name">Beef Italian Salad</div><div class="price">450</div></div>
+              <div class="menu-row"><div class="name">Chicken Italian Salad</div><div class="price">450</div></div>
+              <div class="menu-row"><div class="name">Achar Salad</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Apple Cabbage</div><div class="price">400</div></div>
+              <div class="menu-row"><div class="name">Potato Salad</div><div class="price">400</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** BAR-B-Q ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Bar-B-Q <small>Grilled favourites</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Chicken Seekh Kabab (6 pcs)</div><div class="price">1500</div></div>
+              <div class="menu-row"><div class="name">Chicken Tikka</div><div class="price">400</div></div>
+              <div class="menu-row"><div class="name">Beef Seekh Kabab (6 pcs)</div><div class="price">1500</div></div>
+              <div class="menu-row"><div class="name">Chicken Boti (4 Seekh)</div><div class="price">1600</div></div>
+              <div class="menu-row"><div class="name">Chicken Reshmi Kabab (6 pcs)</div><div class="price">1700</div></div>
+              <div class="menu-row"><div class="name">Chicken Achari Boti (4 Seekh)</div><div class="price">1700</div></div>
+              <div class="menu-row"><div class="name">Chicken Malai Tikka (4 Seekh)</div><div class="price">1850</div></div>
+              <div class="menu-row"><div class="name">Chicken Bihari Tikka</div><div class="price">1600</div></div>
+              <div class="menu-row"><div class="name">Chicken Gandari Boti</div><div class="price">1700</div></div>
+              <div class="menu-row"><div class="name">Arabic Sheesha Boti</div><div class="price">1700</div></div>
+              <div class="menu-row"><div class="name">Hara Bhara Kabab (6 pcs)</div><div class="price">1600</div></div>
+              <div class="menu-row"><div class="name">Makhmali Kabab (6 pcs)</div><div class="price">1600</div></div>
+              <div class="menu-row"><div class="name">Fish Tikka (8 pcs)</div><div class="price">1800</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** USMANIA SPECIALITES ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Usmania Specialities <small>House specials</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Lamb Leg Steamed Roast</div><div class="price">4200</div></div>
+              <div class="menu-row"><div class="name">Chicken Steamed Roast</div><div class="price">1450</div></div>
+              <div class="menu-row"><div class="name">Quail Steamed Roast</div><div class="price">250</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** HANDI ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Handi <small>Clay-pot specialities</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Chicken Makhni Handi</div><div class="price">2900</div></div>
+              <div class="menu-row"><div class="name">Chicken Handi (Full)</div><div class="price">2600</div></div>
+              <div class="menu-row"><div class="name">Mutton Handi (Full)</div><div class="price">4200</div></div>
+              <div class="menu-row"><div class="name">Beef Kabab Handi</div><div class="price">1600</div></div>
+              <div class="menu-row"><div class="name">Prawn Handi</div><div class="price">2500</div></div>
+              <div class="menu-row"><div class="name">Chicken Achari (Handi - Boneless)</div><div class="price">2700</div></div>
+              <div class="menu-row"><div class="name">Mutton Achari (Handi - Boneless)</div><div class="price">4300</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** CURRIES ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Curries <small>Daily curries</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Chicken Vegetable</div><div class="price">950</div></div>
+              <div class="menu-row"><div class="name">Mutton Boti with Yakhni</div><div class="price">950</div></div>
+              <div class="menu-row"><div class="name">Chicken Qeema with Matter</div><div class="price">1100</div></div>
+              <div class="menu-row"><div class="name">Bombai Chicken</div><div class="price">1100</div></div>
+              <div class="menu-row"><div class="name">Mutton Green Chilli</div><div class="price">1700</div></div>
+              <div class="menu-row"><div class="name">Mutton Qourma Badami</div><div class="price">1500</div></div>
+              <div class="menu-row"><div class="name">Prawn Masala</div><div class="price">1500</div></div>
+              <div class="menu-row"><div class="name">Chicken with Green Chilli</div><div class="price">1300</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** NAN ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Nan & Roti <small>breads</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Roghni Nan</div><div class="price">80</div></div>
+              <div class="menu-row"><div class="name">Plain Nan</div><div class="price">40</div></div>
+              <div class="menu-row"><div class="name">Chicken Nan</div><div class="price">400</div></div>
+              <div class="menu-row"><div class="name">Qeema Nan</div><div class="price">400</div></div>
+              <div class="menu-row"><div class="name">Roti</div><div class="price">40</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** STEAK HOUSE ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Steak House <small>Steaks & grills</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Usmania Special Steak</div><div class="price">1300</div></div>
+              <div class="menu-row"><div class="name">Two In One Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Mushroom Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Black Pepper Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Green Pepper Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Cow Boy Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Hawaine Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">American Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Mexican Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">B.B.Q Steak</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Red Hot Steak</div><div class="price">1200</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** PASTA ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Pasta <small>Italian style</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Fettuccine Grill Chicken Pasta</div><div class="price">1100</div></div>
+              <div class="menu-row"><div class="name">Alfredo Pasta</div><div class="price">1100</div></div>
+              <div class="menu-row"><div class="name">Pane Pasta</div><div class="price">1000</div></div>
+              <div class="menu-row"><div class="name">B.B.Q Spaghetti</div><div class="price">1100</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** BURGER ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Burger <small>Quick bites</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">B.B.Q King Burger</div><div class="price">800</div></div>
+              <div class="menu-row"><div class="name">Zinger Burger</div><div class="price">700</div></div>
+              <div class="menu-row"><div class="name">Mushroom Burger</div><div class="price">700</div></div>
+              <div class="menu-row"><div class="name">American Burger</div><div class="price">600</div></div>
+              <div class="menu-row"><div class="name">Jalapeno</div><div class="price">600</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** SANDWICH ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Sandwich <small>Toasted & fresh</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Usmania Special Sandwich</div><div class="price">750</div></div>
+              <div class="menu-row"><div class="name">Club Sandwich</div><div class="price">600</div></div>
+              <div class="menu-row"><div class="name">Beef Sandwich</div><div class="price">650</div></div>
+              <div class="menu-row"><div class="name">Grilled Chicken Sandwich</div><div class="price">650</div></div>
+              <div class="menu-row"><div class="name">Mexican Sandwich</div><div class="price">650</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** KIDS MENU ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Kids Menu <small>Small plates</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">French Fries</div><div class="price">250</div></div>
+              <div class="menu-row"><div class="name">Cheese Fries</div><div class="price">300</div></div>
+              <div class="menu-row"><div class="name">Garlic Fries</div><div class="price">300</div></div>
+              <div class="menu-row"><div class="name">Chicken Shashlik</div><div class="price">1100</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** BEVERAGES ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Beverages <small>Cold & hot</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Milk Shake (Any Flavor)</div><div class="price">300</div></div>
+              <div class="menu-row"><div class="name">Cold Coffee</div><div class="price">300</div></div>
+              <div class="menu-row"><div class="name">Fresh Lime Cold</div><div class="price">180</div></div>
+              <div class="menu-row"><div class="name">Lassi Sweet / Salt (per Jug)</div><div class="price">1200</div></div>
+              <div class="menu-row"><div class="name">Soft Drink (Tin)</div><div class="price">180</div></div>
+              <div class="menu-row"><div class="name">Diet Cold (Tin)</div><div class="price">200</div></div>
+              <div class="menu-row"><div class="name">Mineral Water (1.5 Ltr)</div><div class="price">150</div></div>
+              <div class="menu-row"><div class="name">Cold Drink (1.5 Ltr)</div><div class="price">250</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** ICE CREAM ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Ice Cream <small>Dessert scoops</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Tutti Frutti Ice Cream</div><div class="price">400</div></div>
+              <div class="menu-row"><div class="name">Vanilla Ice Cream</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Strawberry Ice Cream</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Pineapple Ice Cream</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Pistachio Ice Cream</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Kulfa Ice Cream</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Mango Ice Cream</div><div class="price">350</div></div>
+              <div class="menu-row"><div class="name">Chocolate Ice Cream</div><div class="price">350</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ********** DESSERT ********** -->
+        <div class="accordion-item">
+          <div class="accordion-title">Dessert <small>Sweet endings</small></div>
+          <div class="accordion-content">
+            <div class="menu-grid">
+              <div class="menu-row"><div class="name">Kheer</div><div class="price">300</div></div>
+              <div class="menu-row"><div class="name">Fruit Jelly</div><div class="price">300</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Service note -->
+        <div style="padding:12px 14px;color:var(--muted);font-size:13px">
+          <strong>Note:</strong> Service charges 7% may apply.
+        </div>
+
+      </section>
+
+      <!-- Right: Membership & Card -->
+      <aside class="side">
+        <!-- Membership Card -->
+        <div id="membership" class="card" aria-labelledby="membership-title">
+          <h3 id="membership-title">Pioneering Partnership Program</h3>
+          <p class="muted">Formal membership — limited and carefully curated.</p>
+          <div style="margin-top:12px;color:#08332b">
+            <strong>Key facts</strong>
+            <ul class="features">
+              <li><strong>Seats:</strong> Only <em>6 (six)</em> exclusive members.</li>
+              <li><strong>Validity:</strong> Membership benefits are provided for one year from acceptance.</li>
+              <li><strong>Accommodation:</strong> Free accommodation during the one-year membership (terms & scheduling apply).</li>
+              <li><strong>Other benefits:</strong> Lifetime discount on certain services, priority access, VIP support, and exclusive content for members.</li>
+            </ul>
+            <p class="muted" style="margin-top:8px">Applications are reviewed by Murree Heights. Members must agree to program guidelines provided upon acceptance.</p>
+            <div style="margin-top:12px"><a class="btn" href="partnership.html">Learn about Partnership</a></div>
+          </div>
+        </div>
+
+        <!-- Dining Card -->
+        <div id="card" class="card" aria-labelledby="card-title">
+          <h3 id="card-title"> 1000 Dining Card</h3>
+          <p class="muted">Digital dining benefit for guests and visitors.</p>
+          <div style="margin-top:12px;color:#08332b">
+            <strong>Card details</strong>
+            <ul class="features">
+              <li><strong>Price:</strong>  1000 (one-time purchase)</li>
+              <li><strong>Validity:</strong> 60 days (2 months) from activation</li>
+              <li><strong>Discount:</strong> 10% off at top and local restaurants (as listed / participating outlets)</li>
+              <li><strong>Format:</strong> Digital only — no physical card issued</li>
+            </ul>
+            <p class="muted" style="margin-top:8px">Card terms and usage policy will be shared at purchase. Offers may have exclusions and blackout dates.</p>
+            <div style="margin-top:12px"><a class="btn" href="#menu">View Full Menu</a></div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <footer>
+      © <span id="year"></span> Murree Heights — All rights reserved
+    </footer>
+  </main>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Accordion behaviour: allow multiple open, but start all closed
+    document.querySelectorAll('.accordion-item').forEach(item=>{
+      const title = item.querySelector('.accordion-title');
+      const content = item.querySelector('.accordion-content');
+
+      // start closed (but content max-height 0)
+      title.addEventListener('click', ()=>{
+        const wasOpen = item.classList.contains('open');
+        // toggle
+        if(wasOpen){
+          item.classList.remove('open');
+          content.style.maxHeight = null;
+        } else {
+          item.classList.add('open');
+          content.style.maxHeight = content.scrollHeight + 'px';
+        }
+      });
+
+      // enable keyboard toggling
+      title.tabIndex = 0;
+      title.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          title.click();
+        }
+      });
+    });
+
+    // make sure expanded items fit on resize
+    window.addEventListener('resize', ()=>{
+      document.querySelectorAll('.accordion-item.open .accordion-content').forEach(c=>{
+        c.style.maxHeight = c.scrollHeight + 'px';
+      });
+    });
+
+    // smooth anchor scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const href = this.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          const el = document.querySelector(href);
+          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+  </script>
+</body>
+</html>
